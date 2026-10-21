@@ -1,10 +1,10 @@
 {
   "id": "conv-1790418431791-60qd1ab5s",
   "providerId": "codex",
-  "title": "Explain Obsidian Google Drive sync",
+  "title": "Simplify wiki bidirectional link graph",
   "titleGenerationStatus": "success",
   "createdAt": 1790418431798,
-  "lastActivityAt": 1792510315504,
+  "lastActivityAt": 1792551156058,
   "sessionId": "01a0dd41-3f75-78d3-810e-ae1db392e134",
   "selectedModel": "gpt-5.6-sol",
   "providerState": {

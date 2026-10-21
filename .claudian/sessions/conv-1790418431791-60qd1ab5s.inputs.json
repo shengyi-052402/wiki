@@ -34,6 +34,24 @@
       "contentDigest": "97c4ab08f4564184159304153737d95c098b06902be03aad67f76eee8d07dda1",
       "providerUserMessageId": "01a159f0-11c0-74a2-ba88-8f97b1eedfc8",
       "providerAssistantMessageId": "msg_05080f99e2850ee4016ad78969125887d0a6a3b5fbeec091f9"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "msg-1792551156287-d5vk9hy",
+      "userTurnOrdinal": 1,
+      "state": "accepted",
+      "localMessageId": "msg-1792551156058-jl0vdst",
+      "timestamp": 1792551156058,
+      "rawDisplayText": "关于Project-of-sky-take-out-master_wiki_20260812_114558双向链接的关系图谱太多了，而且很多没有用，清洁简化一下",
+      "canonicalText": "关于Project-of-sky-take-out-master_wiki_20260812_114558双向链接的关系图谱太多了，而且很多没有用，清洁简化一下",
+      "context": {
+        "currentNote": {
+          "path": "原始资料/项目/Project-of-sky-take-out-master_wiki_20260812_114558.md"
+        }
+      },
+      "images": [],
+      "contentDigest": "e6a58ab60525c237e8592310774f626b7f4f87f7272c04533ef204190f075be5",
+      "providerUserMessageId": "01a15c60-1cd4-78c0-9c9d-936c021388fe"
     }
   ]
 }
