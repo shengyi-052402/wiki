@@ -11,10 +11,10 @@
             "id": "7c6a992465721505",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "新标签页"
+              "icon": "lucide-git-fork",
+              "title": "关系图谱"
             }
           }
         ]
@@ -193,6 +193,8 @@
   },
   "active": "7c6a992465721505",
   "lastOpenFiles": [
+    "原始资料/项目/Project-of-sky-take-out-master_wiki_20260812_114558.md",
+    "README.md",
     "原始资料/面/QA-PLUS 后台任务梳理.md",
     "Clippings/General · shengyi-052402ObNotion.md",
     "Clippings",
@@ -201,7 +203,6 @@
     "原始资料/面/预言.md",
     "沉淀池/项目/Project-of-sky-take-out项目架构与业务流程-待确认.md",
     "原始资料/项目/Life-QA/Kafka.md",
-    "原始资料/项目/Project-of-sky-take-out-master_wiki_20260812_114558.md",
     "原始资料/项目/DianPing/2026_9_13.md",
     "原始资料/待办/2026_10_6.md",
     "原始资料/面",
@@ -223,7 +224,6 @@
     "原始资料/Project-of-sky-take-out-master_wiki_20260812_114558.md",
     "知识/README.md",
     "原始资料/README.md",
-    "README.md",
     "未命名.md"
   ]
 }
