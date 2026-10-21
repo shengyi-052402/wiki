@@ -4,7 +4,7 @@
   "title": "Simplify wiki bidirectional link graph",
   "titleGenerationStatus": "success",
   "createdAt": 1790418431798,
-  "lastActivityAt": 1792551156058,
+  "lastActivityAt": 1792551330161,
   "sessionId": "01a0dd41-3f75-78d3-810e-ae1db392e134",
   "selectedModel": "gpt-5.6-sol",
   "providerState": {
@@ -14,14 +14,15 @@
     "transcriptRootPath": "C:\\Users\\李嘉浩\\.codex\\sessions",
     "workspaceDependencyToolVersion": 1
   },
+  "currentNote": "原始资料/项目/Project-of-sky-take-out-master_wiki_20260812_114558.md",
   "usage": {
-    "inputTokens": 35551,
+    "inputTokens": 58938,
     "cacheCreationInputTokens": 0,
-    "cacheReadInputTokens": 27136,
+    "cacheReadInputTokens": 58240,
     "contextWindow": 258400,
     "contextWindowIsAuthoritative": true,
-    "contextTokens": 35551,
-    "percentage": 14,
+    "contextTokens": 58938,
+    "percentage": 23,
     "model": "gpt-5.6-sol"
   }
 }

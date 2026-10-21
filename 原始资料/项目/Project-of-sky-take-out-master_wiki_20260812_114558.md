@@ -2,6 +2,10 @@
 
 Generated on: 2026-08-12 11:45:58
 
+## 相关笔记
+
+- [[沉淀池/项目/Project-of-sky-take-out项目架构与业务流程-待确认|项目架构与业务流程整理稿]]
+
 ## Table of Contents
 
 - [项目概览与演进](#page-overview)
@@ -30,9 +34,9 @@ Related topics: [微服务架构总览](#page-microservice-architecture), [部�
 
 The following files were used as context for generating this wiki page:
 
-- [README.md](README.md)
-- [read.md](read.md)
-- [wiki.md](wiki.md)
+- `README.md`
+- `read.md`
+- `wiki.md`
 </details>
 
 
@@ -55,21 +59,21 @@ Related topics: [网关路由与认证机制](#page-gateway-auth-routing), [核�
 
 The following files were used as context for generating this wiki page:
 
-- [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java](sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java)
-- [sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java](sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java)
-- [sky-gateway/src/main/resources/application.yml](sky-gateway/src/main/resources/application.yml)
-- [sky-gateway/src/main/resources/bootstrap.yaml](sky-gateway/src/main/resources/bootstrap.yaml)
-- [admin-service/src/main/java/com/sky/AdminApplication.java](admin-service/src/main/java/com/sky/AdminApplication.java)
-- [item-service/src/main/java/com/sky/ItemApplication.java](item-service/src/main/java/com/sky/ItemApplication.java)
-- [user-service/src/main/java/com/sky/UserApplication.java](user-service/src/main/java/com/sky/UserApplication.java)
-- [cart-service/src/main/java/com/sky/CartApplication.java](cart-service/src/main/java/com/sky/CartApplication.java)
-- [order-service/src/main/java/com/sky/OrderApplication.java](order-service/src/main/java/com/sky/OrderApplication.java)
+- `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java`
+- `sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java`
+- `sky-gateway/src/main/resources/application.yml`
+- `sky-gateway/src/main/resources/bootstrap.yaml`
+- `admin-service/src/main/java/com/sky/AdminApplication.java`
+- `item-service/src/main/java/com/sky/ItemApplication.java`
+- `user-service/src/main/java/com/sky/UserApplication.java`
+- `cart-service/src/main/java/com/sky/CartApplication.java`
+- `order-service/src/main/java/com/sky/OrderApplication.java`
 </details>
 
 # 微服务架构总览
 
 本项目从源码结构看，采用网关入口加多个业务服务的微服务划分方式。`sky-gateway` 提供统一入口、跨域处理与全局认证过滤；`user-service`、`cart-service`、`order-service`、`admin-service` 分别承载用户、购物车、订单与管理端报表/员工等业务能力；`sky-common` 与 `sky-pojo` 提供公共工具、常量、异常和 VO 模型。网关通过解析请求头中的用户或管理员 JWT 来识别请求身份，业务服务通过 Spring MVC Controller 暴露 REST API。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 ```mermaid
 graph TD
@@ -94,7 +98,7 @@ AdminSvc -.-> Common
 ```
 
 上图展示了从客户端到网关，再到各业务服务的总体请求路径；公共模块为多个服务提供共享的 JWT、常量、异常和 VO 等支撑能力。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ## 架构组件与职责
 
@@ -110,18 +114,18 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12
 | 订单数据源配置 | `OrderDataSourceConfig` | 在 `admin-service` 中配置 order 数据源、SqlSessionFactory 和 Mapper XML |
 | 公共模块 | `sky-common`、`sky-pojo` | 提供 JWT 工具、常量、异常、VO 模型 |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [user-service/src/main/java/com/sky/service/UserService.java:1-18](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/EmployeeController.java:101-144](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80](), [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `user-service/src/main/java/com/sky/service/UserService.java:1-18`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/EmployeeController.java:101-144`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`, `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ## 网关入口与全局过滤
 
 `sky-gateway` 的启动类 `GatewayApplication` 使用 `@SpringBootApplication` 标注，并通过 `SpringApplication.run` 启动。该模块是整个微服务架构的统一入口。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12`
 
 `AuthGlobalFilter` 实现了 `GlobalFilter` 和 `Ordered`，说明它是 Spring Cloud Gateway 的全局过滤器，并可参与过滤器排序。过滤器首先获取 `ServerHttpRequest`，然后调用 `isExclude(request.getPath().toString())` 判断当前路径是否在排除列表中；如果不需要拦截，则直接通过 `chain.filter(exchange)` 放行。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`
 
 对于需要鉴权的请求，过滤器会尝试从请求头中读取 token：优先读取 `jwtProperties.getUserTokenName()` 对应的用户 token；如果不存在，再读取 `jwtProperties.getAdminTokenName()` 对应的管理员 token。变量 `isUserToken` 用于区分当前 token 是用户 token 还是管理员 token。随后代码进入 JWT 校验与解析阶段。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`
 
 ```mermaid
 sequenceDiagram
@@ -149,12 +153,12 @@ G-->>-C: 响应
 ```
 
 该时序图展示了网关认证过滤器的核心流程：先判断是否放行，再读取并解析 JWT，最后继续向下游服务转发。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`
 
 ## 跨域处理
 
 `CorsConfig` 通过注册 `WebFilter` 实现跨域处理。其逻辑是：先使用 `CorsUtils.isCorsRequest(request)` 判断当前请求是否为跨域请求；如果不是跨域请求，则直接放行。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37`
 
 如果是跨域请求，配置会从请求头中读取 `Origin` 和 `Access-Control-Request-Headers`，并将它们写入响应头：
 
@@ -164,12 +168,12 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37]
 | `ACCESS_CONTROL_ALLOW_HEADERS` | 请求头中的 `Access-Control-Request-Headers` | 允许客户端携带的请求头 |
 | 请求方法相关头 | `Access-Control-RequestMethod` | 处理预检请求方法 |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37`
 
 ## JWT 身份认证体系
 
 项目中存在两个 `JwtTool`：一个位于 `sky-gateway`，一个位于 `sky-common`。两者都提供了 `parseJWT(String secretKey, String token)` 方法，用于解析 JWT。解析时使用 `Jwts.parser()`，并通过 `setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))` 设置签名密钥。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`
 
 `JwtClaimsConstant` 在 `sky-gateway` 和 `sky-common` 中都定义了相同常量：
 
@@ -179,7 +183,7 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57](),
 | `USER_ID` | `userId` | 用户身份 claim |
 
 源码注释明确说明：将二者设置成一样，方便 `FeignClient` 进行微服务之间的请求。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:1-12](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:1-12`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`
 
 ```mermaid
 classDiagram
@@ -209,12 +213,12 @@ UserController --> JwtClaimsConstant : 写入
 ```
 
 该类图展示了 JWT 生成、解析与身份 claim 在网关和用户服务之间的关系。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`
 
 ## 用户服务
 
 `user-service` 中的 `UserController` 映射在 `/user/user` 路径下，提供 C 端用户相关接口。其 `login` 接口接收 `UserLoginDTO`，调用 `UserService.login` 完成登录；登录成功后，将用户 ID 写入 JWT claims，并使用 `JwtTool.createJWT` 生成用户 token，最终返回 `UserLoginVO`。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:1-74`
 
 `UserService` 接口定义了两个能力：
 
@@ -223,7 +227,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74
 | `login(UserLoginDTO userLoginDTO)` | 网页登录 |
 | `save(UserDTO userDTO)` | 新增用户 |
 
-Sources: [user-service/src/main/java/com/sky/service/UserService.java:1-18]()
+Sources: `user-service/src/main/java/com/sky/service/UserService.java:1-18`
 
 ```mermaid
 sequenceDiagram
@@ -242,12 +246,12 @@ UC-->>-C: UserLoginVO(token)
 ```
 
 该时序图展示了用户登录并获取 JWT 的过程。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [user-service/src/main/java/com/sky/service/UserService.java:1-18](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `user-service/src/main/java/com/sky/service/UserService.java:1-18`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`
 
 ## 购物车服务
 
 `cart-service` 的 `ShoppingCartController` 映射在 `/user/shoppingCart` 路径下，提供 C 端购物车接口。该控制器同时注入了 `ShoppingCartService` 和 `ShoppingCartMapper`，部分业务通过 service 完成，部分操作直接调用 mapper。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`
 
 | HTTP 方法 | 路径 | 功能 | 实现方式 |
 |---|---|---|---|
@@ -258,12 +262,12 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 | DELETE | `/user/shoppingCart/deleteByUserId` | 根据用户 ID 清空购物车 | `shoppingCartMapper.deleteByUserId` |
 | POST | `/user/shoppingCart/sub` | 删除购物车中一个商品 | `shoppingCartService.subShoppingCart` |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`
 
 ## 订单服务
 
 `order-service` 同时包含用户端订单接口和管理端订单接口。用户端控制器名为 `userOrderController`，映射路径为 `/user/order`；管理端控制器提供接单、拒单、取消、派送、完成等订单状态流转操作。  
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ### 用户端订单接口
 
@@ -273,7 +277,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | GET | `/user/order/historyOrders` | 历史订单查询 |
 | GET | `/user/order/orderDetail/{id}` | 查询订单详情 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`
 
 用户端历史订单查询支持分页参数 `page`、`pageSize`，以及订单状态 `status`。源码注释列出了订单状态含义：
 
@@ -286,7 +290,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | 5 | 已完成 |
 | 6 | 已取消 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`
 
 ### 管理端订单操作
 
@@ -298,7 +302,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | PUT | `/delivery/{id}` | 派送订单 |
 | PUT | `/complete/{id}` | 完成订单 |
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ```mermaid
 sequenceDiagram
@@ -327,12 +331,12 @@ O-->>-A: 完成成功
 ```
 
 该时序图展示了订单从用户提交到管理端进行接单、拒单、取消、派送和完成的主要操作入口。  
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ## 管理端服务
 
 `admin-service` 提供员工管理和数据统计能力。`EmployeeService` 定义了员工登录、新增、分页查询、启用/禁用、根据 ID 查询和编辑员工信息等接口。  
-Sources: [admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51]()
+Sources: `admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51`
 
 `EmployeeController` 中可见以下管理端员工操作：
 
@@ -342,10 +346,10 @@ Sources: [admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51]
 | GET | `/{id}` | 根据 ID 查询员工信息 |
 | PUT | `/` | 编辑员工信息 |
 
-Sources: [admin-service/src/main/java/com/sky/controller/EmployeeController.java:101-144]()
+Sources: `admin-service/src/main/java/com/sky/controller/EmployeeController.java:101-144`
 
 `ReportController` 映射在 `/admin/report` 路径下，提供营业额统计、用户统计和订单统计接口。所有接口均接收 `begin` 和 `end` 两个日期参数，并使用 `@DateTimeFormat(pattern = "yyyy-MM-dd")` 解析为 `LocalDate`。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 | HTTP 方法 | 路径 | 返回 VO |
 |---|---|---|
@@ -353,7 +357,7 @@ Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1
 | GET | `/admin/report/userStatistics` | `UserReportVO` |
 | GET | `/admin/report/ordersStatistics` | `OrderReportVO` |
 
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 ```mermaid
 graph TD
@@ -368,7 +372,7 @@ RS --> VO
 ```
 
 订单统计接口通过 `ReportService` 生成报表结果，其中订单统计返回 `OrderReportVO`。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ### 订单报表数据模型
 
@@ -383,12 +387,12 @@ Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1
 | `validOrderCount` | `Integer` | 有效订单数 |
 | `orderCompletionRate` | `Double` | 订单完成率 |
 
-Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ## admin-service 中的订单数据源配置
 
 `admin-service` 中的 `OrderDataSourceConfig` 表明该服务集成了对 order 数据的访问能力。它使用 `@Configuration` 和 `@MapperScan` 扫描 `com.sky.api.client.order` 包，并指定 `sqlSessionFactoryRef` 为 `orderSqlSessionFactory`。  
-Sources: [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35]()
+Sources: `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35`
 
 该配置类定义了两个核心 Bean：
 
@@ -397,7 +401,7 @@ Sources: [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.j
 | `orderDataSource` | `DataSource` | 绑定 `spring.datasource.order` 配置 |
 | `orderSqlSessionFactory` | `SqlSessionFactory` | 使用 `orderDataSource`，加载 `classpath:api/client/order/*.xml` |
 
-Sources: [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35]()
+Sources: `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35`
 
 ```mermaid
 graph TD
@@ -412,20 +416,20 @@ SF --> XML
 ```
 
 该图展示了 `admin-service` 中 order 数据源、MyBatis SqlSessionFactory 和 Mapper XML 的配置关系。  
-Sources: [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35]()
+Sources: `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java:1-35`
 
 ## 公共模块与异常模型
 
 `sky-common` 提供了跨服务共享的 JWT 工具和常量。`JwtTool.parseJWT` 用于服务端解析 token，`JwtClaimsConstant` 定义了统一的身份 claim 名称。  
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`
 
 `OrderBusinessException` 继承自 `BaseException`，用于表示订单业务异常。它的构造方法只接收一个错误消息，并传递给父类。  
-Sources: [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10]()
+Sources: `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10`
 
 ## 总体请求流转
 
 从提供的源码可以归纳出如下请求流转路径：客户端请求先进入 `sky-gateway`，由 `CorsConfig` 处理跨域，由 `AuthGlobalFilter` 判断是否排除路径并解析 JWT；通过网关后，请求根据业务路径进入用户、购物车、订单或管理端服务；各服务通过 Controller 暴露 REST API，并调用对应 Service 或 Mapper 完成业务处理。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 ```mermaid
 sequenceDiagram
@@ -458,7 +462,7 @@ G-->>-C: 响应
 ```
 
 该时序图是对整体微服务请求链路的汇总：网关负责统一入口和认证，业务服务负责具体领域逻辑。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:1-37`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 ## 总结
 
@@ -479,13 +483,13 @@ Related topics: [微服务架构总览](#page-microservice-architecture), [公�
 
 The following files were used as context for generating this wiki page:
 
-- [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java](sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java)
-- [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java](sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java)
-- [sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java](sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java)
-- [sky-gateway/src/main/java/com/sky/gateway/properties/JwtProperties.java](sky-gateway/src/main/java/com/sky/gateway/properties/JwtProperties.java)
-- [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java](sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java)
-- [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java](sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java)
-- [sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java](sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java)
+- `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java`
+- `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java`
+- `sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java`
+- `sky-gateway/src/main/java/com/sky/gateway/properties/JwtProperties.java`
+- `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java`
+- `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java`
+- `sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java`
 </details>
 
 # 网关路由与认证机制
@@ -510,7 +514,7 @@ The following files were used as context for generating this wiki page:
 | `UserController` | `user-service` | 用户登录并返回 JWT |
 | 各业务 Controller | `order-service`、`cart-service`、`admin-service` | 暴露 `/user` 或 `/admin` 业务接口 |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59](), [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5-6](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:5-6](), [user-service/src/main/java/com/sky/controller/UserController.java:41-59]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59`, `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5-6`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:5-6`, `user-service/src/main/java/com/sky/controller/UserController.java:41-59`
 
 ```mermaid
 graph TD
@@ -524,7 +528,7 @@ G --> H[得到userId]
 
 上图展示可见源码中的认证主线：登录接口负责生成 Token，网关模块中的 `JwtTool` 具备解析 Token 并得到 Claims 的能力。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54`
 
 ## 2. JWT 签发
 
@@ -548,7 +552,7 @@ String token = JwtTool.createJWT(
 - 密钥与有效期来自 `JwtProperties`。
 - `JwtProperties` 的具体字段未在当前上下文中展示。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`
 
 ### 2.2 登录签发时序
 
@@ -572,7 +576,7 @@ Note over U,J: claim使用USER_ID
 
 该时序对应 `UserController.login` 的可见流程：登录校验、生成 Claims、调用 JWT 工具、返回 Token。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`
 
 ## 3. JWT 解析与 Claims 约定
 
@@ -590,7 +594,7 @@ public static Claims parseJWT(String secretKey, String token) {
 
 该方法返回 `Claims`，供调用方读取 JWT 中的用户身份或其他声明信息。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54`
 
 ### 3.2 通用模块 JWT 解析
 
@@ -603,7 +607,7 @@ Claims claims = Jwts.parser()
 return claims;
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59`
 
 ### 3.3 Claims 常量
 
@@ -620,7 +624,7 @@ public static final String USER_ID = "userId";
 | `USER_ID` | `userId` | C 端用户标识 |
 | 统一键名 | `userId` | 便于微服务间 Feign 请求传递身份 |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5-6](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:5-6]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5-6`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:5-6`
 
 ### 3.4 解析流程
 
@@ -640,7 +644,7 @@ G-->>-Caller: Claims
 
 该流程仅表示 `JwtTool.parseJWT` 的内部调用关系；当前上下文没有展示网关过滤器、路由处理器或业务拦截器在何处调用该方法。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54`
 
 ## 4. 路由目标端点
 
@@ -658,7 +662,7 @@ C --> G[后台服务]
 
 该图仅基于 Controller 的 `@RequestMapping` 路径前缀归纳，不表示已确认的网关路由配置。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:23-25](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:16-18](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-19](), [admin-service/src/main/java/com/sky/controller/ReportController.java:24-26]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:23-25`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:16-18`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-19`, `admin-service/src/main/java/com/sky/controller/ReportController.java:24-26`
 
 ### 4.1 用户端订单接口
 
@@ -670,7 +674,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:23-2
 | `GET` | `/user/order/historyOrders` | 历史订单分页查询 |
 | `GET` | `/user/order/orderDetail/{id}` | 查询订单详情 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:16-34](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:58-63](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:70-72]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:16-34`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:58-63`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:70-72`
 
 ### 4.2 用户端购物车接口
 
@@ -685,7 +689,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | `DELETE` | `/user/shoppingCart/deleteByUserId` | 按用户 ID 清空购物车 |
 | `POST` | `/user/shoppingCart/sub` | 删除购物车中一个商品 |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-37](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:43-45](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:53-58](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:64-69](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:75-80](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:86-92]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-37`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:43-45`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:53-58`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:64-69`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:75-80`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:86-92`
 
 ### 4.3 用户登录接口
 
@@ -696,7 +700,7 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 | `POST` | `/user/user/login` | 顾客登录并返回 JWT |
 | `POST` | `/user/user` | 新增用户 |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:23-25](), [user-service/src/main/java/com/sky/controller/UserController.java:41-59](), [user-service/src/main/java/com/sky/controller/UserController.java:66-73]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:23-25`, `user-service/src/main/java/com/sky/controller/UserController.java:41-59`, `user-service/src/main/java/com/sky/controller/UserController.java:66-73`
 
 ### 4.4 后台报表接口
 
@@ -710,7 +714,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:23-2
 | `GET` | `/admin/report/top10` | 销量排名 Top10 |
 | `GET` | `/admin/report/export` | 导出运营数据报表 |
 
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:24-46](), [admin-service/src/main/java/com/sky/controller/ReportController.java:53-76](), [admin-service/src/main/java/com/sky/controller/ReportController.java:65-105]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:24-46`, `admin-service/src/main/java/com/sky/controller/ReportController.java:53-76`, `admin-service/src/main/java/com/sky/controller/ReportController.java:65-105`
 
 ### 4.5 后台订单与员工接口
 
@@ -727,7 +731,7 @@ Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:2
 | 员工管理 | 根据 ID 查询员工 | `GET` |
 | 员工管理 | 编辑员工信息 | `PUT` |
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/EmployeeController.java:101-144]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/EmployeeController.java:101-144`
 
 ## 5. 网关路由与过滤缺失信息
 
@@ -749,7 +753,7 @@ Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.j
 
 可确认的是：网关模块中存在 `JwtTool.parseJWT` 与 `JwtClaimsConstant`，说明网关侧具备解析 JWT 和统一用户标识键名的代码基础。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54](), [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5-6]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:47-54`, `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5-6`
 
 ## 6. 总结
 
@@ -770,24 +774,24 @@ Related topics: [购物车与订单流程](#page-order-cart-flow), [微服务架
 
 The following files were used as context for generating this wiki page:
 
-- [admin-service/src/main/java/com/sky/controller/EmployeeController.java](admin-service/src/main/java/com/sky/controller/EmployeeController.java)
-- [admin-service/src/main/java/com/sky/controller/ReportController.java](admin-service/src/main/java/com/sky/controller/ReportController.java)
-- [admin-service/src/main/java/com/sky/controller/WorkSpaceController.java](admin-service/src/main/java/com/sky/controller/WorkSpaceController.java)
-- [item-service/src/main/java/com/sky/controller/admin/DishController.java](item-service/src/main/java/com/sky/controller/admin/DishController.java)
-- [item-service/src/main/java/com/sky/controller/admin/SetmealController.java](item-service/src/main/java/com/sky/controller/admin/SetmealController.java)
-- [item-service/src/main/java/com/sky/controller/admin/CategoryController.java](item-service/src/main/java/com/sky/controller/admin/CategoryController.java)
-- [item-service/src/main/java/com/sky/controller/admin/ShopController.java](item-service/src/main/java/com/sky/controller/admin/ShopController.java)
-- [user-service/src/main/java/com/sky/controller/UserController.java](user-service/src/main/java/com/sky/controller/UserController.java)
-- [user-service/src/main/java/com/sky/controller/AddressBookController.java](user-service/src/main/java/com/sky/controller/AddressBookController.java)
-- [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java](cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java)
-- [order-service/src/main/java/com/sky/controller/user/OrderController.java](order-service/src/main/java/com/sky/controller/user/OrderController.java)
-- [order-service/src/main/java/com/sky/controller/admin/OrderController.java](order-service/src/main/java/com/sky/controller/admin/OrderController.java)
+- `admin-service/src/main/java/com/sky/controller/EmployeeController.java`
+- `admin-service/src/main/java/com/sky/controller/ReportController.java`
+- `admin-service/src/main/java/com/sky/controller/WorkSpaceController.java`
+- `item-service/src/main/java/com/sky/controller/admin/DishController.java`
+- `item-service/src/main/java/com/sky/controller/admin/SetmealController.java`
+- `item-service/src/main/java/com/sky/controller/admin/CategoryController.java`
+- `item-service/src/main/java/com/sky/controller/admin/ShopController.java`
+- `user-service/src/main/java/com/sky/controller/UserController.java`
+- `user-service/src/main/java/com/sky/controller/AddressBookController.java`
+- `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java`
+- `order-service/src/main/java/com/sky/controller/user/OrderController.java`
+- `order-service/src/main/java/com/sky/controller/admin/OrderController.java`
 </details>
 
 # 核心业务功能模块
 
 核心业务功能模块覆盖该项目中顾客端与管理端的主要业务能力，包括用户登录、地址簿管理、购物车操作、用户下单与查询、管理端订单处理、订单状态流转以及报表统计。根据源码中的控制器与服务分布，这些能力分别位于 `user-service`、`cart-service`、`order-service`、`admin-service`，以及公共模块 `sky-common` 和网关模块 `sky-gateway` 中。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 ## 模块总览
 
@@ -801,7 +805,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74
 | 报表服务 | `ReportController` | 营业额统计、用户统计、订单统计 |
 | 公共能力 | `JwtTool`、`MessageConstant`、`StatusConstant` | JWT 生成与解析、业务提示信息、状态常量 |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-62](), [sky-common/src/main/java/com/sky/constant/MessageConstant.java:1-29](), [sky-common/src/main/java/com/sky/constant/StatusConstant.java:1-14]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:1-62`, `sky-common/src/main/java/com/sky/constant/MessageConstant.java:1-29`, `sky-common/src/main/java/com/sky/constant/StatusConstant.java:1-14`
 
 ```mermaid
 graph TD
@@ -816,29 +820,29 @@ I --> K[业务常量]
 ```
 
 该图展示了核心业务模块之间的总体关系：用户端主要访问用户、地址、购物车和订单功能，管理端主要进行订单处理与数据统计，公共模块提供 JWT 与常量支撑。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`
 
 ## 用户认证与 JWT
 
 ### 用户登录接口
 
 用户登录入口位于 `UserController`，接口路径为 `POST /user/user/login`。控制器接收 `UserLoginDTO`，调用 `UserService.login` 完成登录逻辑，然后使用 `JwtTool.createJWT` 生成顾客端 JWT 令牌，并将用户 ID 写入 claims。最终返回 `UserLoginVO`，其中包含用户 ID 和 token。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`
 
 | 接口 | 方法 | 请求体 | 返回结果 |
 |---|---:|---|---|
 | `/user/user/login` | POST | `UserLoginDTO` | `Result<UserLoginVO>` |
 | `/user/user` | POST | `UserDTO` | `Result` |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-73]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-73`
 
 ### JWT 生成与解析
 
 `sky-common` 中的 `JwtTool.createJWT` 使用 `SignatureAlgorithm.HS256` 算法，根据传入的 `secretKey`、`ttlMillis` 和 `claims` 生成 JWT。该方法会计算过期时间，并通过 `JwtBuilder` 设置 claims、签名算法与过期时间。  
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42`
 
 `sky-common` 和 `sky-gateway` 中都提供了 `parseJWT` 方法，用于解析 JWT 并返回 `Claims`。网关模块中的 `createJWT` 方法被注释，当前可见能力主要是 `parseJWT`。  
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:48-55]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:48-55`
 
 ```mermaid
 sequenceDiagram
@@ -857,12 +861,12 @@ UC-->>-C: UserLoginVO
 ```
 
 该时序图描述了顾客登录的核心流程：控制器接收登录请求，服务层返回用户实体，`JwtTool` 生成 token，控制器将 token 封装到登录响应中。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42`
 
 ## 地址簿管理
 
 `AddressBookController` 提供 C 端地址簿接口，基础路径为 `/user/addressBook`。查询当前登录用户地址列表时，控制器创建 `AddressBook` 查询条件，并通过 `BaseContext.getCurrentId()` 设置当前用户 ID，然后调用 `AddressBookService.list`。  
-Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.java:27-35]()
+Sources: `user-service/src/main/java/com/sky/controller/AddressBookController.java:27-35`
 
 | 接口 | 方法 | 功能 |
 |---|---:|---|
@@ -872,7 +876,7 @@ Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.ja
 | `/user/addressBook` | PUT | 根据 ID 修改地址 |
 | `/user/addressBook/default` | PUT | 设置默认地址 |
 
-Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.java:27-79]()
+Sources: `user-service/src/main/java/com/sky/controller/AddressBookController.java:27-79`
 
 ```mermaid
 graph TD
@@ -883,12 +887,12 @@ F[设置默认地址] --> D
 ```
 
 地址簿模块围绕 `AddressBookService` 完成业务处理，查询当前用户地址时依赖 `BaseContext` 提供的当前用户 ID。  
-Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.java:27-79]()
+Sources: `user-service/src/main/java/com/sky/controller/AddressBookController.java:27-79`
 
 ## 购物车管理
 
 `ShoppingCartController` 提供 C 端购物车接口，基础路径为 `/user/shoppingCart`。添加购物车、查看购物车、清空购物车、删除购物车中一个商品等操作主要通过 `ShoppingCartService` 完成；批量插入和按用户 ID 清空购物车则直接调用 `ShoppingCartMapper`。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`
 
 | 接口 | 方法 | 功能 | 实现依赖 |
 |---|---:|---|---|
@@ -899,7 +903,7 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 | `/user/shoppingCart/deleteByUserId` | DELETE | 根据用户 ID 清空购物车 | `ShoppingCartMapper.deleteByUserId` |
 | `/user/shoppingCart/sub` | POST | 删除购物车中一个商品 | `ShoppingCartService.subShoppingCart` |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`
 
 ```mermaid
 sequenceDiagram
@@ -926,14 +930,14 @@ SCC-->>-C: Result.success
 ```
 
 该时序图展示了购物车模块中三类典型调用：业务服务处理添加与查询，Mapper 直接处理按用户清空。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`
 
 ## 用户订单功能
 
 ### 用户下单与查询
 
 用户端订单接口位于 `order-service` 的 `OrderController`，基础路径为 `/user/order`。用户下单接口接收 `OrdersSubmitDTO`，调用 `OrderService.submitOrder`，返回 `OrderSubmitVO`。历史订单查询支持分页和订单状态过滤，订单详情接口根据订单 ID 查询。  
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75`
 
 | 接口 | 方法 | 功能 |
 |---|---:|---|
@@ -941,18 +945,18 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | `/user/order/historyOrders` | GET | 历史订单分页查询 |
 | `/user/order/orderDetail/{id}` | GET | 查询订单详情 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75`
 
 源码注释中明确订单状态含义：`1` 待付款、`2` 待接单、`3` 已接单、`4` 派送中、`5` 已完成、`6` 已取消。  
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58`
 
 ### 用户取消订单与再来一单
 
 `OrderServiceImpl.userCancelById` 实现了用户取消订单逻辑。该方法先根据 ID 查询订单，如果订单不存在则抛出 `OrderBusinessException`，提示信息来自 `MessageConstant.ORDER_NOT_FOUND`。如果订单状态大于 `2`，则不允许取消，并提示 `MessageConstant.ORDER_STATUS_ERROR`。当订单处于待接单状态时，支付状态会被设置为退款状态。最终订单状态更新为已取消，并写入取消原因和取消时间。  
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-360](), [sky-common/src/main/java/com/sky/constant/MessageConstant.java:14-28]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-360`, `sky-common/src/main/java/com/sky/constant/MessageConstant.java:14-28`
 
 `OrderServiceImpl.repetition` 实现了“再来一单”逻辑。该方法获取当前用户 ID，根据订单 ID 查询订单详情列表，并将订单详情对象转换为购物车对象。  
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:362-375]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:362-375`
 
 | 订单状态 | 含义 |
 |---:|---|
@@ -963,12 +967,12 @@ Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java
 | 5 | 已完成 |
 | 6 | 已取消 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58`
 
 ## 管理端订单处理
 
 管理端订单接口同样位于 `order-service`，由 `admin` 包下的 `OrderController` 提供。接口包括接单、拒单、取消订单、派送订单和完成订单。  
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 | 接口 | 方法 | 功能 |
 |---|---:|---|
@@ -978,23 +982,23 @@ Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.j
 | `/delivery/{id}` | PUT | 派送订单 |
 | `/complete/{id}` | PUT | 完成订单 |
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ### 拒单与取消订单
 
 `OrderServiceImpl.rejection` 会校验订单是否存在且状态是否为待接单。如果状态不符合，会抛出订单状态错误。若订单支付状态为已支付，则记录申请退款日志。随后订单状态更新为已取消，并写入拒单原因和取消时间。  
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:490-511]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:490-511`
 
 `OrderServiceImpl.cancel` 用于管理端取消订单。该方法根据订单 ID 查询订单，如果支付状态为已支付，则记录退款日志，然后更新订单状态为已取消，并写入取消原因和取消时间。  
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:513-533]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:513-533`
 
 ### 派送与完成订单
 
 `OrderServiceImpl.delivery` 会查询订单并校验订单是否存在且状态是否为已接单。如果校验失败，抛出订单状态错误。校验通过后，订单状态更新为派送中。  
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-556]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-556`
 
 `OrderServiceImpl.complete` 会查询订单并校验订单是否存在且状态是否为派送中。该逻辑表明完成订单操作发生在派送中状态之后。  
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:558-571]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:558-571`
 
 ```mermaid
 sequenceDiagram
@@ -1014,12 +1018,12 @@ OC-->>-A: Result.success
 ```
 
 该时序图展示了管理端派送订单的调用链：控制器接收请求，服务层执行状态校验，Mapper 持久化订单状态变更。  
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:105-113](), [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-556]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:105-113`, `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-556`
 
 ## 订单状态流转
 
 根据用户端订单注释和 `OrderServiceImpl` 中的状态校验逻辑，订单状态之间存在明确的业务约束：用户取消订单时状态不能大于待接单；管理端派送订单要求订单处于已接单状态；完成订单要求订单处于派送中状态。  
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58](), [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-360](), [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-571]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58`, `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-360`, `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-571`
 
 ```mermaid
 graph TD
@@ -1031,12 +1035,12 @@ E --> F[已完成]
 ```
 
 该图概括了源码中可确认的主要订单状态流转方向。待付款和待接单状态可进入已取消状态，待接单状态可进入已接单状态，已接单状态可进入派送中状态，派送中状态可进入已完成状态。  
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58](), [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-360](), [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-571]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:52-58`, `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-360`, `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:535-571`
 
 ## 报表统计
 
 `ReportController` 提供数据统计接口，基础路径为 `/admin/report`。当前源码中可见的统计接口包括营业额统计、用户统计和订单统计。这些接口均接收 `begin` 和 `end` 日期参数，并通过 `@DateTimeFormat(pattern = "yyyy-MM-dd")` 进行日期格式化。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:27-80]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:27-80`
 
 | 接口 | 方法 | 返回类型 |
 |---|---:|---|
@@ -1044,10 +1048,10 @@ Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:2
 | `/admin/report/userStatistics` | GET | `Result<UserReportVO>` |
 | `/admin/report/ordersStatistics` | GET | `Result<OrderReportVO>` |
 
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:38-80]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:38-80`
 
 `OrderReportVO` 用于订单统计结果，包含日期列表、每日订单数、每日有效订单数、订单总数、有效订单数和订单完成率。  
-Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35`
 
 | 字段 | 类型 | 说明 |
 |---|---:|---|
@@ -1058,7 +1062,7 @@ Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35]()
 | `validOrderCount` | `Integer` | 有效订单数 |
 | `orderCompletionRate` | `Double` | 订单完成率 |
 
-Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35`
 
 ```mermaid
 graph TD
@@ -1070,14 +1074,14 @@ C --> F[OrderReportVO]
 ```
 
 报表模块由管理端控制器接收日期范围参数，委托 `ReportService` 生成对应 VO 返回。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:27-80](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:27-80`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-35`
 
 ## 公共常量与接口文档配置
 
 ### 业务提示常量
 
 `MessageConstant` 定义了多项业务提示信息，例如用户未登录、购物车为空、地址为空、订单状态错误、订单不存在等。这些常量在订单等业务逻辑中用于统一异常提示信息。  
-Sources: [sky-common/src/main/java/com/sky/constant/MessageConstant.java:7-28]()
+Sources: `sky-common/src/main/java/com/sky/constant/MessageConstant.java:7-28`
 
 | 常量 | 值 |
 |---|---|
@@ -1087,20 +1091,20 @@ Sources: [sky-common/src/main/java/com/sky/constant/MessageConstant.java:7-28]()
 | `ORDER_STATUS_ERROR` | 订单状态错误 |
 | `ORDER_NOT_FOUND` | 订单不存在 |
 
-Sources: [sky-common/src/main/java/com/sky/constant/MessageConstant.java:13-28]()
+Sources: `sky-common/src/main/java/com/sky/constant/MessageConstant.java:13-28`
 
 ### 状态常量
 
 `StatusConstant` 定义了启用和禁用两种通用状态，其中 `ENABLE` 为 `1`，`DISABLE` 为 `0`。  
-Sources: [sky-common/src/main/java/com/sky/constant/StatusConstant.java:7-13]()
+Sources: `sky-common/src/main/java/com/sky/constant/StatusConstant.java:7-13`
 
 ### Swagger 接口文档配置
 
 `order-service` 的 `WebMvcConfiguration` 中配置了管理端接口和用户端接口的 Swagger Docket。管理端接口扫描 `com.sky.controller.admin` 包，用户端接口扫描 `com.sky.controller` 包。  
-Sources: [order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91]()
+Sources: `order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91`
 
 `item-service` 的 `WebMvcConfiguration` 也配置了管理端接口和用户端接口文档，其中管理端接口扫描 `com.sky.controller.admin` 包。  
-Sources: [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90]()
+Sources: `item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90`
 
 | 服务 | 分组 | 扫描包 |
 |---|---|---|
@@ -1108,7 +1112,7 @@ Sources: [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-
 | `order-service` | 用户端接口 | `com.sky.controller` |
 | `item-service` | 管理端接口 | `com.sky.controller.admin` |
 
-Sources: [order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91](), [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90]()
+Sources: `order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91`, `item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90`
 
 ## 总结
 
@@ -1129,21 +1133,21 @@ Related topics: [核心业务功能模块](#page-business-features), [数据访�
 
 The following files were used as context for generating this wiki page:
 
-- [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java](cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java)
-- [cart-service/src/main/java/com/sky/service/ShoppingCartService.java](cart-service/src/main/java/com/sky/service/ShoppingCartService.java)
-- [cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java](cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java)
-- [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java](sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java)
-- [order-service/src/main/java/com/sky/controller/user/OrderController.java](order-service/src/main/java/com/sky/controller/user/OrderController.java)
-- [order-service/src/main/java/com/sky/service/OrderService.java](order-service/src/main/java/com/sky/service/OrderService.java)
-- [order-service/src/main/java/com/sky/websocket/WebSocketServer.java](order-service/src/main/java/com/sky/websocket/WebSocketServer.java)
-- [sky-pojo/src/main/java/com/sky/dto/OrdersSubmitDTO.java](sky-pojo/src/main/java/com/sky/dto/OrdersSubmitDTO.java)
+- `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java`
+- `cart-service/src/main/java/com/sky/service/ShoppingCartService.java`
+- `cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java`
+- `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java`
+- `order-service/src/main/java/com/sky/controller/user/OrderController.java`
+- `order-service/src/main/java/com/sky/service/OrderService.java`
+- `order-service/src/main/java/com/sky/websocket/WebSocketServer.java`
+- `sky-pojo/src/main/java/com/sky/dto/OrdersSubmitDTO.java`
 </details>
 
 # 购物车与订单流程
 
 购物车与订单流程覆盖 C 端用户从登录获取 JWT、操作购物车，到提交订单与查询订单的主要业务链路。该流程由 `cart-service` 提供购物车接口，由 `order-service` 提供订单接口，并通过 `sky-gateway` 的全局过滤器完成请求级 JWT 解析；用户登录签发 JWT 的能力位于 `user-service`。
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:16-75](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:24-65](), [user-service/src/main/java/com/sky/controller/UserController.java:40-58]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:16-75`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:24-65`, `user-service/src/main/java/com/sky/controller/UserController.java:40-58`
 
 ## 总体架构
 
@@ -1155,7 +1159,7 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 - `user-service`：提供用户登录接口，并生成用户端 JWT。
 - `order-service` 中还包含 WebSocket 配置，为订单相关实时能力提供基础 Bean。
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-26](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:16-20](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:24-65](), [user-service/src/main/java/com/sky/controller/UserController.java:27-58](), [order-service/src/main/java/com/sky/config/WebsocketConfig.java:10-17]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-26`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:16-20`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:24-65`, `user-service/src/main/java/com/sky/controller/UserController.java:27-58`, `order-service/src/main/java/com/sky/config/WebsocketConfig.java:10-17`
 
 ```mermaid
 graph TD
@@ -1172,7 +1176,7 @@ D --> H
 
 上图展示了请求进入系统后的总体路径：网关先判断是否需要放行，未放行时读取并解析 JWT，随后请求进入购物车或订单接口。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:38-65]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:38-65`
 
 ## 用户登录与网关鉴权
 
@@ -1180,11 +1184,11 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java
 
 `user-service` 的 `UserController` 提供 `/user/user/login` 接口。登录成功后，会将用户 ID 写入 JWT claims，并通过 `JwtTool.createJWT` 生成 token，最终封装到 `UserLoginVO` 返回。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:40-58](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:40-58`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42`
 
 登录校验由 `UserServiceImpl.login` 完成：当用户名或密码为空时抛出异常；随后根据用户名查询用户，并对前端传入的明文密码进行 MD5 加密后与数据库密码比对。
 
-Sources: [user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:31-56]()
+Sources: `user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:31-56`
 
 ### 网关解析 JWT
 
@@ -1196,11 +1200,11 @@ Sources: [user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:3
 4. 如果用户 token 不存在，再尝试从管理员 token 请求头中获取 JWT。
 5. 使用 `JwtTool.parseJWT` 解析 JWT。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:38-65]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:38-65`
 
 网关中的 `JwtTool` 保留了 `parseJWT` 方法，用于根据秘钥解析 token 并返回 `Claims`；其 `createJWT` 方法在提供的代码中处于注释状态。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`
 
 ### 鉴权相关配置
 
@@ -1208,13 +1212,13 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57]()
 
 | 配置/类 | 作用 | 来源 |
 |---|---|---|
-| `AuthProperties.includePaths` | 需要纳入鉴权范围的路径列表 | [sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:8-13]() |
-| `AuthProperties.excludePaths` | 不需要纳入鉴权范围的路径列表 | [sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:8-13]() |
-| `sky.jwt.user-secret-key` | 用户端 JWT 签名秘钥 | [user-service/src/main/resources/application.yml:18-25]() |
-| `sky.jwt.user-ttl` | 用户端 JWT 过期时间 | [user-service/src/main/resources/application.yml:18-25]() |
-| `sky.jwt.user-token-name` | 前端传递用户令牌的请求头名称 | [user-service/src/main/resources/application.yml:18-25]() |
+| `AuthProperties.includePaths` | 需要纳入鉴权范围的路径列表 | `sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:8-13` |
+| `AuthProperties.excludePaths` | 不需要纳入鉴权范围的路径列表 | `sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:8-13` |
+| `sky.jwt.user-secret-key` | 用户端 JWT 签名秘钥 | `user-service/src/main/resources/application.yml:18-25` |
+| `sky.jwt.user-ttl` | 用户端 JWT 过期时间 | `user-service/src/main/resources/application.yml:18-25` |
+| `sky.jwt.user-token-name` | 前端传递用户令牌的请求头名称 | `user-service/src/main/resources/application.yml:18-25` |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:8-13](), [user-service/src/main/resources/application.yml:18-25]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:8-13`, `user-service/src/main/resources/application.yml:18-25`
 
 ## 购物车流程
 
@@ -1222,7 +1226,7 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.ja
 
 `ShoppingCartController` 位于 `cart-service`，基础路径为 `/user/shoppingCart`，Swagger 分组为 `C端购物车相关接口`。该控制器同时注入了 `ShoppingCartService` 与 `ShoppingCartMapper`。
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-26]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-26`
 
 ### 购物车 API 列表
 
@@ -1235,7 +1239,7 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 | `DELETE` | `/user/shoppingCart/deleteByUserId` | `userId` | `deleteByUserId` | 根据用户 ID 清空购物车 |
 | `POST` | `/user/shoppingCart/sub` | `ShoppingCartDTO` 请求体 | `sub` | 删除购物车中一个商品 |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`
 
 ### 购物车业务调用关系
 
@@ -1246,14 +1250,14 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 - `cleanShoppingCart`
 - `subShoppingCart`
 
-Sources: [cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33]()
+Sources: `cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33`
 
 在控制器中：
 
 - `add`、`list`、`clean`、`sub` 调用 `ShoppingCartService`。
 - `insertBatch`、`deleteByUserId` 直接调用 `ShoppingCartMapper`。
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`
 
 ```mermaid
 sequenceDiagram
@@ -1276,7 +1280,7 @@ Note over SC,SM: insertBatch与deleteByUserId直接调用Mapper
 
 该时序图展示了常规购物车请求经过控制器和服务层的调用路径；批量插入和按用户删除则由控制器直接访问 Mapper。
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98](), [cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`, `cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33`
 
 ## 订单流程
 
@@ -1284,7 +1288,7 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 
 `OrderController` 位于 `order-service`，Bean 名称为 `userOrderController`，基础路径为 `/user/order`，Swagger 分组为 `用户端订单相关接口`。
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:16-20]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:16-20`
 
 ### 订单 API 列表
 
@@ -1294,17 +1298,17 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | `GET` | `/user/order/historyOrders` | `page`、`pageSize`、`status` | `page` | 历史订单查询 |
 | `GET` | `/user/order/orderDetail/{id}` | 路径参数 `id` | `details` | 查询订单详情 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75`
 
 提供的代码中，订单支付接口处于注释状态，未作为有效接口暴露。
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:37-49]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:37-49`
 
 ### 用户下单流程
 
 用户下单接口接收 `OrdersSubmitDTO`，控制器记录日志后调用 `OrderService.submitOrder`，并将返回的 `OrderSubmitVO` 封装到 `Result` 中返回。
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:28-35]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:28-35`
 
 ```mermaid
 sequenceDiagram
@@ -1325,17 +1329,17 @@ GW-->>-U: 返回下单结果
 
 该时序图基于 `OrderController.submit` 的调用链：控制器接收请求并委托给 `OrderService`，最终返回统一结果。
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:28-35]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:28-35`
 
 ### 历史订单与订单详情
 
 历史订单查询接口接收分页参数 `page`、`pageSize` 以及订单状态 `status`，并调用 `OrderService.pageQuery4User` 返回 `PageResult`。订单详情接口通过路径参数 `id` 查询单个订单。
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:51-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:51-75`
 
 控制器注释中列出了订单状态含义：`1待付款 2待接单 3已接单 4派送中 5已完成 6已取消`。
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:51-59]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:51-59`
 
 ### 订单状态统计与菜品摘要
 
@@ -1347,7 +1351,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 
 统计结果封装到 `OrderStatisticsVO` 中返回。
 
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:452-466]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:452-466`
 
 ```mermaid
 graph TD
@@ -1358,17 +1362,17 @@ A --> D[派送中数量]
 
 该图对应 `OrderServiceImpl.statistics` 中三类订单数量的统计维度。
 
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:452-466]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:452-466`
 
 `OrderServiceImpl` 还提供了私有方法 `getOrderDishesStr`，用于根据订单 ID 查询订单菜品详情，并将菜品信息拼接为字符串，格式类似 `菜品名称*数量;`。
 
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:433-446]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:433-446`
 
 ## 实时通信配置
 
 `order-service` 中的 `WebsocketConfig` 注册了 `ServerEndpointExporter` Bean。该配置用于支持 WebSocket 端点导出能力。提供的文件中未展示具体 WebSocket 端点或消息推送逻辑。
 
-Sources: [order-service/src/main/java/com/sky/config/WebsocketConfig.java:10-17]()
+Sources: `order-service/src/main/java/com/sky/config/WebsocketConfig.java:10-17`
 
 ## 关键流程摘要
 
@@ -1381,7 +1385,7 @@ Sources: [order-service/src/main/java/com/sky/config/WebsocketConfig.java:10-17]
 | 订单详情查询 | `/user/order/orderDetail/{id}` | `OrderController`、`OrderService` | `OrderVO` |
 | 网关鉴权 | 请求进入网关时 | `AuthGlobalFilter`、`JwtTool`、`AuthProperties` | 放行或解析 JWT |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:40-58](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75](), [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:38-65]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:40-58`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:28-75`, `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:38-65`
 
 购物车与订单流程以用户 JWT 鉴权为前置条件，通过 `cart-service` 完成购物车增删查清操作，再通过 `order-service` 完成下单、历史订单查询和订单详情查询。网关负责统一解析用户或管理员 JWT，`order-service` 同时提供 WebSocket 基础配置以支持后续实时订单场景。
 
@@ -1400,20 +1404,20 @@ Related topics: [购物车与订单流程](#page-order-cart-flow), [缓存体系
 
 The following files were used as context for generating this wiki page:
 
-- [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java](admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java)
-- [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java](admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java)
-- [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java](admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java)
-- [admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java](admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java)
-- [admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java](admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java)
-- [admin-service/src/main/java/com/sky/api/client/item/DishMapper.java](admin-service/src/main/java/com/sky/api/client/item/DishMapper.java)
-- [admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java](admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java)
-- [admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java](admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java)
-- [admin-service/src/main/java/com/sky/api/client/user/UserMapper.java](admin-service/src/main/java/com/sky/api/client/user/UserMapper.java)
-- [cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java](cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java)
-- [order-service/src/main/java/com/sky/mapper/OrderMapper.java](order-service/src/main/java/com/sky/mapper/OrderMapper.java)
-- [order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java](order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java)
-- [user-service/src/main/java/com/sky/mapper/UserMapper.java](user-service/src/main/java/com/sky/mapper/UserMapper.java)
-- [user-service/src/main/java/com/sky/mapper/AddressBookMapper.java](user-service/src/main/java/com/sky/mapper/AddressBookMapper.java)
+- `admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java`
+- `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java`
+- `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java`
+- `admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java`
+- `admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java`
+- `admin-service/src/main/java/com/sky/api/client/item/DishMapper.java`
+- `admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java`
+- `admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java`
+- `admin-service/src/main/java/com/sky/api/client/user/UserMapper.java`
+- `cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java`
+- `order-service/src/main/java/com/sky/mapper/OrderMapper.java`
+- `order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java`
+- `user-service/src/main/java/com/sky/mapper/UserMapper.java`
+- `user-service/src/main/java/com/sky/mapper/AddressBookMapper.java`
 </details>
 
 # 数据访问与多数据源设计
@@ -1438,7 +1442,7 @@ E --> I[通用数据访问]
 
 该图展示了 `admin-service` 中数据源配置与 Mapper 分层之间的逻辑关系：不同业务域由不同数据源配置承载，最终通过对应 Mapper 完成数据访问。
 
-Sources: [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java](), [admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java]()
+Sources: `admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java`, `admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java`
 
 ## 数据源配置组件
 
@@ -1451,7 +1455,7 @@ Sources: [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.ja
 | `UserDataSourceConfig` | `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java` | 用户域数据源配置入口 |
 | `DefaultDataSourceConfig` | `admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java` | 默认数据源配置入口 |
 
-Sources: [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java](), [admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java]()
+Sources: `admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java`, `admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java`
 
 ## Mapper 分层设计
 
@@ -1470,7 +1474,7 @@ Sources: [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.ja
 | `UserMapper` | `user-service` | 用户 | 用户服务用户数据访问 |
 | `AddressBookMapper` | `user-service` | 地址 | 用户地址簿数据访问 |
 
-Sources: [admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java](), [admin-service/src/main/java/com/sky/api/client/item/DishMapper.java](), [admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java](), [admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java](), [admin-service/src/main/java/com/sky/api/client/user/UserMapper.java](), [cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java](), [order-service/src/main/java/com/sky/mapper/OrderMapper.java](), [order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java](), [user-service/src/main/java/com/sky/mapper/UserMapper.java](), [user-service/src/main/java/com/sky/mapper/AddressBookMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java`, `admin-service/src/main/java/com/sky/api/client/item/DishMapper.java`, `admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java`, `admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java`, `admin-service/src/main/java/com/sky/api/client/user/UserMapper.java`, `cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java`, `order-service/src/main/java/com/sky/mapper/OrderMapper.java`, `order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java`, `user-service/src/main/java/com/sky/mapper/UserMapper.java`, `user-service/src/main/java/com/sky/mapper/AddressBookMapper.java`
 
 ## 数据访问调用链
 
@@ -1493,7 +1497,7 @@ S-->>-C: 返回业务结果
 
 该调用链体现了 Controller/Service/Mapper 的分层访问方式，`Mapper` 是数据访问的核心入口。
 
-Sources: [admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java](), [admin-service/src/main/java/com/sky/api/client/item/DishMapper.java](), [admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java](), [order-service/src/main/java/com/sky/mapper/OrderMapper.java](), [user-service/src/main/java/com/sky/mapper/UserMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java`, `admin-service/src/main/java/com/sky/api/client/item/DishMapper.java`, `admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java`, `order-service/src/main/java/com/sky/mapper/OrderMapper.java`, `user-service/src/main/java/com/sky/mapper/UserMapper.java`
 
 ## 商品域数据访问
 
@@ -1507,7 +1511,7 @@ B --> D[菜品数据]
 C --> E[套餐数据]
 ```
 
-Sources: [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/client/item/DishMapper.java](), [admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/client/item/DishMapper.java`, `admin-service/src/main/java/com/sky/api/client/item/SetmealMapper.java`
 
 ## 订单域数据访问
 
@@ -1523,7 +1527,7 @@ D --> F
 E --> G[订单明细数据]
 ```
 
-Sources: [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java](), [order-service/src/main/java/com/sky/mapper/OrderMapper.java](), [order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/client/order/OrderMapper.java`, `order-service/src/main/java/com/sky/mapper/OrderMapper.java`, `order-service/src/main/java/com/sky/mapper/OrderDetailMapper.java`
 
 ## 用户域数据访问
 
@@ -1539,7 +1543,7 @@ D --> F
 E --> G[地址数据]
 ```
 
-Sources: [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/client/user/UserMapper.java](), [user-service/src/main/java/com/sky/mapper/UserMapper.java](), [user-service/src/main/java/com/sky/mapper/AddressBookMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/client/user/UserMapper.java`, `user-service/src/main/java/com/sky/mapper/UserMapper.java`, `user-service/src/main/java/com/sky/mapper/AddressBookMapper.java`
 
 ## 员工与购物车数据访问
 
@@ -1550,7 +1554,7 @@ Sources: [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.ja
 | `admin-service` | `EmployeeMapper` | 员工账号与管理端用户信息 |
 | `cart-service` | `ShoppingCartMapper` | 购物车记录 |
 
-Sources: [admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java](), [cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java`, `cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java`
 
 ## 默认数据源与分域数据源关系
 
@@ -1564,7 +1568,7 @@ E[OrderDataSourceConfig] --> F[订单域]
 G[UserDataSourceConfig] --> H[用户域]
 ```
 
-Sources: [admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java]()
+Sources: `admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java`
 
 ## 设计要点总结
 
@@ -1576,7 +1580,7 @@ Sources: [admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.jav
 | 模块拆分 | `admin-service`、`cart-service`、`order-service`、`user-service` 各自持有相关 Mapper |
 | 访问路径 | 业务层通过 Mapper 访问数据库，保持服务层与持久层解耦 |
 
-Sources: [admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java](), [admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java](), [admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java](), [admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java](), [cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java](), [order-service/src/main/java/com/sky/mapper/OrderMapper.java](), [user-service/src/main/java/com/sky/mapper/UserMapper.java]()
+Sources: `admin-service/src/main/java/com/sky/api/config/ItemDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/OrderDataSourceConfig.java`, `admin-service/src/main/java/com/sky/api/config/UserDataSourceConfig.java`, `admin-service/src/main/java/com/sky/config/DefaultDataSourceConfig.java`, `admin-service/src/main/java/com/sky/mapper/EmployeeMapper.java`, `cart-service/src/main/java/com/sky/mapper/ShoppingCartMapper.java`, `order-service/src/main/java/com/sky/mapper/OrderMapper.java`, `user-service/src/main/java/com/sky/mapper/UserMapper.java`
 
 本项目的数据访问与多数据源设计以业务域为核心，通过配置类划分商品、订单、用户等数据访问边界，并由各模块中的 Mapper 接口完成具体持久化操作。该结构有利于保持服务边界清晰、降低跨域数据访问耦合，并为后续扩展独立数据库或分库访问提供基础。
 
@@ -1595,33 +1599,33 @@ Related topics: [数据访问与多数据源设计](#page-data-access-multidatas
 
 The following files were used as context for generating this wiki page:
 
-- [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java)
-- [item-service/src/main/java/com/sky/config/RedisConfiguration.java](item-service/src/main/java/com/sky/config/RedisConfiguration.java)
-- [user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java)
-- [user-service/src/main/java/com/sky/config/RedisConfiguration.java](user-service/src/main/java/com/sky/config/RedisConfiguration.java)
-- [sky-common/src/main/java/com/sky/properties/CaffeineProperties.java](sky-common/src/main/java/com/sky/properties/CaffeineProperties.java)
-- [README.md](README.md)
+- `item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`
+- `item-service/src/main/java/com/sky/config/RedisConfiguration.java`
+- `user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`
+- `user-service/src/main/java/com/sky/config/RedisConfiguration.java`
+- `sky-common/src/main/java/com/sky/properties/CaffeineProperties.java`
+- `README.md`
 </details>
 
 # 缓存体系与性能优化
 
 本项目将原本双端外卖平台从单体架构演进为微服务架构，其中性能优化的核心主线之一是将 Redis 一级缓存升级为 Redis 与 Caffeine 组合的二级缓存体系，并围绕 SpringCache、Nacos 配置治理、Sentinel 熔断降级与 Seata 分布式事务进行稳定性与响应性能增强。README 中明确记录了该优化针对“用户根据分类id查询菜品（连带口味）”接口，并在 Apifox 压测中取得了 QPS 提升与平均响应时间下降的结果。  
-Sources: [README.md:1-16]()
+Sources: `README.md:1-16`
 
 ## 1. 缓存优化目标与范围
 
 缓存优化的直接目标是在微服务拆分后，为高频读取的菜品查询接口提供更低的响应延迟与更高的吞吐能力。README 记录了 2025-3-1 将 Redis 一级缓存改为 Redis+Caffeine 二级缓存，并说明该优化作用于“用户根据分类id查询菜品（连带口味）”接口。  
-Sources: [README.md:6]()
+Sources: `README.md:6`
 
 该优化发生在项目微服务化过程中，尤其是店铺模块 `item-service` 与用户端模块 `user-service` 拆分前后。README 同时记录了 2025-3-4 修复 SpringCache 集成 Caffeine 后的错误，说明 Caffeine 本地缓存是通过 SpringCache 体系接入项目的。  
-Sources: [README.md:19-20]()
+Sources: `README.md:19-20`
 
 ## 2. 二级缓存架构
 
 ### 2.1 架构组成
 
 根据缓存优化记录，系统从仅使用 Redis 的远程缓存模式演进为本地缓存与远程缓存组合的二级缓存模式。项目中的缓存配置相关类分布在 `item-service`、`user-service` 与 `sky-common` 中，分别承担本地缓存配置、Redis 缓存配置以及 Caffeine 属性承载。  
-Sources: [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [item-service/src/main/java/com/sky/config/RedisConfiguration.java](), [user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [user-service/src/main/java/com/sky/config/RedisConfiguration.java](), [sky-common/src/main/java/com/sky/properties/CaffeineProperties.java]()
+Sources: `item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `item-service/src/main/java/com/sky/config/RedisConfiguration.java`, `user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `user-service/src/main/java/com/sky/config/RedisConfiguration.java`, `sky-common/src/main/java/com/sky/properties/CaffeineProperties.java`
 
 | 组件 / 文件 | 所属模块 | 在缓存体系中的角色 |
 |---|---|---|
@@ -1631,12 +1635,12 @@ Sources: [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java
 | `RedisConfiguration.java` | `user-service` | 用户端 Redis 缓存配置入口 |
 | `CaffeineProperties.java` | `sky-common` | Caffeine 本地缓存属性承载 |
 
-Sources: [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [item-service/src/main/java/com/sky/config/RedisConfiguration.java](), [user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [user-service/src/main/java/com/sky/config/RedisConfiguration.java](), [sky-common/src/main/java/com/sky/properties/CaffeineProperties.java]()
+Sources: `item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `item-service/src/main/java/com/sky/config/RedisConfiguration.java`, `user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `user-service/src/main/java/com/sky/config/RedisConfiguration.java`, `sky-common/src/main/java/com/sky/properties/CaffeineProperties.java`
 
 ### 2.2 二级缓存读取流程
 
 二级缓存的核心读取路径可理解为：请求先进入服务接口，再优先访问本地缓存；本地缓存未命中时继续访问 Redis 缓存，最终返回查询结果。该流程与 README 中“Redis 一级缓存改为 Redis+Caffeine 二级缓存”的描述一致。  
-Sources: [README.md:6]()
+Sources: `README.md:6`
 
 ```mermaid
 graph TD
@@ -1648,12 +1652,12 @@ D --> E
 ```
 
 上图展示了二级缓存的基本访问顺序：本地缓存位于 Redis 缓存之前，用于缩短热点数据的访问路径。  
-Sources: [README.md:6]()
+Sources: `README.md:6`
 
 ### 2.3 菜品查询缓存时序
 
 README 明确指出缓存优化针对“用户根据分类id查询菜品（连带口味）”接口。该接口属于用户端菜品查询场景，因此与 `user-service` 的缓存配置相关；同时店铺/商品模块 `item-service` 也具备对应的本地缓存与 Redis 缓存配置。  
-Sources: [README.md:6](), [user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [user-service/src/main/java/com/sky/config/RedisConfiguration.java](), [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [item-service/src/main/java/com/sky/config/RedisConfiguration.java]()
+Sources: `README.md:6`, `user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `user-service/src/main/java/com/sky/config/RedisConfiguration.java`, `item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `item-service/src/main/java/com/sky/config/RedisConfiguration.java`
 
 ```mermaid
 sequenceDiagram
@@ -1678,12 +1682,12 @@ S-->>-C: 返回结果
 ```
 
 该时序图表达了二级缓存读取的基本分支：本地缓存命中时直接返回，未命中时继续访问 Redis。  
-Sources: [README.md:6]()
+Sources: `README.md:6`
 
 ## 3. 性能收益
 
 README 给出了 Apifox 压测结果：在并发用户数为 100、持续 1 分钟的测试条件下，将 Redis 缓存改为二级缓存后，QPS 提高 36%，平均响应时间从 125ms 降低到 74ms，响应时间减少 40%。  
-Sources: [README.md:14-16]()
+Sources: `README.md:14-16`
 
 | 指标 | Redis 一级缓存 | Redis+Caffeine 二级缓存 | 变化 |
 |---|---:|---:|---:|
@@ -1691,7 +1695,7 @@ Sources: [README.md:14-16]()
 | QPS | 基准值 | 提升 36% | 显著提升 |
 | 压测条件 | 100 并发，持续 1 分钟 | 100 并发，持续 1 分钟 | 同条件对比 |
 
-Sources: [README.md:14-16]()
+Sources: `README.md:14-16`
 
 ```mermaid
 graph TD
@@ -1700,15 +1704,15 @@ C[二级缓存] --> D[74ms]
 ```
 
 上图对比了 README 中记录的两种缓存形态下的平均响应时间。  
-Sources: [README.md:14-16]()
+Sources: `README.md:14-16`
 
 ## 4. SpringCache 与 Caffeine 集成
 
 README 记录了 2025-3-4 修复 SpringCache 集成 Caffeine 后的错误。这表明项目并非直接手写全部缓存访问逻辑，而是通过 SpringCache 抽象接入 Caffeine 本地缓存，并与 Redis 缓存共同形成二级缓存能力。  
-Sources: [README.md:19]()
+Sources: `README.md:19`
 
 Caffeine 作为本地缓存层，其配置属性由公共模块中的 `CaffeineProperties` 承载；各业务服务再通过本地缓存配置类进行装配。该结构有利于在 `item-service` 与 `user-service` 等微服务中复用统一的缓存属性定义。  
-Sources: [sky-common/src/main/java/com/sky/properties/CaffeineProperties.java](), [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java]()
+Sources: `sky-common/src/main/java/com/sky/properties/CaffeineProperties.java`, `item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`
 
 | 技术 | 项目中的作用 | 来源依据 |
 |---|---|---|
@@ -1716,12 +1720,12 @@ Sources: [sky-common/src/main/java/com/sky/properties/CaffeineProperties.java]()
 | Redis | 分布式缓存，跨服务共享缓存数据 | README 中 Redis 一级/二级缓存记录 |
 | SpringCache | 缓存抽象与注解式缓存接入方式 | README 中 SpringCache 集成 Caffeine 记录 |
 
-Sources: [README.md:6-19]()
+Sources: `README.md:6-19`
 
 ## 5. Nacos 配置治理与热更新
 
 README 记录了 2025-3-12 在 Nacos 注册中心添加和拉取共享配置，以简化 `.yml` 文件编写，并配置普通属性热更新与动态路由热更新。该能力虽然不直接等同于缓存读取优化，但为缓存参数、服务配置和路由规则的动态调整提供了运维与性能调优基础。  
-Sources: [README.md:25-28]()
+Sources: `README.md:25-28`
 
 ```mermaid
 graph TD
@@ -1734,7 +1738,7 @@ D --> F[网关路由]
 ```
 
 上图展示了 Nacos 在项目中承担的配置共享、热更新与动态路由能力。  
-Sources: [README.md:25-28]()
+Sources: `README.md:25-28`
 
 | 能力 | 对性能/运维的意义 | 来源依据 |
 |---|---|---|
@@ -1742,12 +1746,12 @@ Sources: [README.md:25-28]()
 | 属性热更新 | 支持运行期调整配置，减少重启成本 | README 2025-3-12 |
 | 动态路由热更新 | 支持路由规则调整，提升网关接入灵活性 | README 2025-3-12 |
 
-Sources: [README.md:25-28]()
+Sources: `README.md:25-28`
 
 ## 6. Sentinel 熔断降级与缓存补充逻辑
 
 README 记录了 2025-3-17 成功添加 Sentinel，并补充了一些 Redis 和 Caffeine 二级缓存中的处理逻辑。随后在 2025-3-18 又补充了 Sentinel 降级逻辑，使服务熔断时能够返回默认数据，从而改善用户体验。  
-Sources: [README.md:32-35]()
+Sources: `README.md:32-35`
 
 ```mermaid
 graph TD
@@ -1758,7 +1762,7 @@ D --> E[默认数据]
 ```
 
 上图体现了 Sentinel 在请求链路中的保护与降级作用：当正常链路不可用或触发熔断时，系统可转向降级逻辑并返回默认数据。  
-Sources: [README.md:32-35]()
+Sources: `README.md:32-35`
 
 | 稳定性能力 | 项目记录 | 性能/体验影响 |
 |---|---|---|
@@ -1766,12 +1770,12 @@ Sources: [README.md:32-35]()
 | 二级缓存处理逻辑补充 | 2025-3-17 | 完善 Redis+Caffeine 缓存链路 |
 | Sentinel 降级逻辑 | 2025-3-18 | 熔断时返回默认数据，提升用户体验 |
 
-Sources: [README.md:32-35]()
+Sources: `README.md:32-35`
 
 ## 7. Seata 分布式事务与性能权衡
 
 README 记录了 2025-3-15 使用 Seata 实现基础分布式事务的 XA 或 AT 模式，并通过 `GlobalLock` 与 `select for update` 防止 AT 模式下的脏读。README 同时说明，虽然 `GlobalLock` 失效，但使用 `GlobalTransactional` 仍可达到防止脏读的效果，只是性能消耗更大。  
-Sources: [README.md:29-31]()
+Sources: `README.md:29-31`
 
 | 机制 | 作用 | 性能影响 |
 |---|---|---|
@@ -1780,15 +1784,15 @@ Sources: [README.md:29-31]()
 | `select for update` | 防止 AT 模式脏读 | 增加数据库锁等待 |
 | `GlobalTransactional` | 可达到类似 `GlobalLock` 的防脏读效果 | 性能消耗更大 |
 
-Sources: [README.md:29-31]()
+Sources: `README.md:29-31`
 
 该部分说明性能优化不仅包括缓存读取加速，也包括在分布式事务场景下对一致性与性能之间权衡的记录。Seata 相关机制会引入额外开销，因此需要在高并发读取路径中谨慎评估事务边界。  
-Sources: [README.md:29-31]()
+Sources: `README.md:29-31`
 
 ## 8. 关键优化时间线
 
 README 以日期方式记录了项目从缓存优化、模块拆分、Nacos 配置治理到 Sentinel 与 Seata 的演进过程。  
-Sources: [README.md:6-35]()
+Sources: `README.md:6-35`
 
 | 日期 | 优化/演进内容 | 与缓存或性能的关系 |
 |---|---|---|
@@ -1799,12 +1803,12 @@ Sources: [README.md:6-35]()
 | 2025-3-17 | Sentinel 成功接入，补充二级缓存处理逻辑 | 完善缓存链路与流量治理能力 |
 | 2025-3-18 | Sentinel 降级逻辑补充 | 熔断时返回默认数据，改善用户体验 |
 
-Sources: [README.md:6-35]()
+Sources: `README.md:6-35`
 
 ## 9. 总结
 
 本项目的缓存体系与性能优化以 Redis+Caffeine 二级缓存为核心，通过本地缓存减少热点数据对 Redis 的访问压力，并在 Apifox 压测中体现出 QPS 提升与平均响应时间下降的效果。围绕该缓存体系，项目还通过 SpringCache 集成 Caffeine、Nacos 配置热更新、Sentinel 熔断降级与 Seata 分布式事务机制，共同构成微服务架构下的性能、稳定性与一致性保障方案。  
-Sources: [README.md:6-35](), [item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [item-service/src/main/java/com/sky/config/RedisConfiguration.java](), [user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java](), [user-service/src/main/java/com/sky/config/RedisConfiguration.java](), [sky-common/src/main/java/com/sky/properties/CaffeineProperties.java]()
+Sources: `README.md:6-35`, `item-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `item-service/src/main/java/com/sky/config/RedisConfiguration.java`, `user-service/src/main/java/com/sky/config/LocalCacheConfiguration.java`, `user-service/src/main/java/com/sky/config/RedisConfiguration.java`, `sky-common/src/main/java/com/sky/properties/CaffeineProperties.java`
 
 ---
 
@@ -1821,14 +1825,14 @@ Related topics: [核心业务功能模块](#page-business-features), [网关路�
 
 The following files were used as context for generating this wiki page:
 
-- [user-service/src/main/java/com/sky/config/MyKnife4jConfiguration.java](user-service/src/main/java/com/sky/config/MyKnife4jConfiguration.java)
-- [user-service/src/main/java/com/sky/controller/UserController.java](user-service/src/main/java/com/sky/controller/UserController.java)
-- [item-service/src/main/java/com/sky/controller/user/DishController.java](item-service/src/main/java/com/sky/controller/user/DishController.java)
-- [item-service/src/main/java/com/sky/controller/user/SetmealController.java](item-service/src/main/java/com/sky/controller/user/SetmealController.java)
-- [item-service/src/main/java/com/sky/controller/user/CategoryController.java](item-service/src/main/java/com/sky/controller/user/CategoryController.java)
-- [item-service/src/main/java/com/sky/controller/user/ShopController.java](item-service/src/main/java/com/sky/controller/user/ShopController.java)
-- [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java](cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java)
-- [order-service/src/main/java/com/sky/controller/user/OrderController.java](order-service/src/main/java/com/sky/controller/user/OrderController.java)
+- `user-service/src/main/java/com/sky/config/MyKnife4jConfiguration.java`
+- `user-service/src/main/java/com/sky/controller/UserController.java`
+- `item-service/src/main/java/com/sky/controller/user/DishController.java`
+- `item-service/src/main/java/com/sky/controller/user/SetmealController.java`
+- `item-service/src/main/java/com/sky/controller/user/CategoryController.java`
+- `item-service/src/main/java/com/sky/controller/user/ShopController.java`
+- `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java`
+- `order-service/src/main/java/com/sky/controller/user/OrderController.java`
 </details>
 
 # 前端交互与接口契约
@@ -1868,7 +1872,7 @@ sequenceDiagram
     GW-->>-FE: 返回结果
 ```
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:1-65`
 
 ### 路径排除配置
 
@@ -1879,13 +1883,13 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java
 | `sky.auth.includePaths` | `List<String>` | 需要鉴权的路径列表 |
 | `sky.auth.excludePaths` | `List<String>` | 无需鉴权的路径列表（如登录、注册） |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:1-14]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/properties/AuthProperties.java:1-14`
 
 ### Token 提取逻辑
 
 过滤器依次尝试从请求头中获取用户Token和管理员Token，通过 `jwtProperties.getUserTokenName()` 和 `jwtProperties.getAdminTokenName()` 确定请求头名称，并标记 `isUserToken` 以区分用户类型。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:48-62]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/filter/AuthGlobalFilter.java:48-62`
 
 ### JWT 生成与解析
 
@@ -1912,7 +1916,7 @@ public static Claims parseJWT(String secretKey, String token) {
 }
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`
 
 ## 用户认证接口
 
@@ -1950,13 +1954,13 @@ sequenceDiagram
 | `id` | Long | 用户ID |
 | `token` | String | JWT令牌 |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:40-59]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:40-59`
 
 ### 新增用户
 
 `POST /user/user` 接口用于新增用户，接收 `UserDTO` 对象。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:65-73]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:65-73`
 
 ## 用户端业务接口
 
@@ -1973,7 +1977,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:65-7
 | DELETE | `/user/shoppingCart/deleteByUserId` | 按用户ID清空 | `userId`参数 |
 | POST | `/user/shoppingCart/sub` | 删除购物车中一个商品 | `ShoppingCartDTO` |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-85]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-85`
 
 ### 订单接口（用户端）
 
@@ -1996,7 +2000,7 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 | 5 | 已完成 |
 | 6 | 已取消 |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`
 
 ### 地址簿接口
 
@@ -2010,7 +2014,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | PUT | `/user/addressBook` | 修改地址 |
 | PUT | `/user/addressBook/default` | 设置默认地址 |
 
-Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79]()
+Sources: `user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79`
 
 ## 管理端订单接口
 
@@ -2024,7 +2028,7 @@ Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.ja
 | PUT | `/delivery/{id}` | 派送订单 | 路径参数`id` |
 | PUT | `/complete/{id}` | 完成订单 | 路径参数`id` |
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ### 订单取消数据模型
 
@@ -2036,7 +2040,7 @@ public class OrdersCancelDTO implements Serializable {
 }
 ```
 
-Sources: [sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:1-15]()
+Sources: `sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:1-15`
 
 ## 订单状态流转
 
@@ -2060,11 +2064,11 @@ graph TD
 
 **用户取消订单规则：** 仅当订单状态 ≤ 2（待付款或待接单）时允许用户取消。若订单处于待接单状态（状态=2），取消时需将支付状态设为退款。
 
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-375]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:328-375`
 
 **管理端取消订单：** 管理端取消时若用户已支付（`payStatus == 1`），需触发退款流程。
 
-Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:523-571]()
+Sources: `order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java:523-571`
 
 ## 统一响应与错误消息
 
@@ -2072,7 +2076,7 @@ Sources: [order-service/src/main/java/com/sky/service/impl/OrderServiceImpl.java
 
 所有接口统一使用 `Result<T>` 封装响应，通过 `Result.success(data)` 返回成功结果。
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:57](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:37]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:57`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:37`
 
 ### 业务错误消息常量
 
@@ -2088,7 +2092,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:57](
 | `DISH_ON_SALE` | "起售中的菜品不能删除" | 删除在售菜品 |
 | `SETMEAL_ON_SALE` | "起售中的套餐不能删除" | 删除在售套餐 |
 
-Sources: [sky-common/src/main/java/com/sky/constant/MessageConstant.java:1-29]()
+Sources: `sky-common/src/main/java/com/sky/constant/MessageConstant.java:1-29`
 
 ## 接口契约总览
 
@@ -2115,7 +2119,7 @@ graph TD
 | order-service | `/user/order` | 用户下单、查询 |
 | order-service (admin) | `/admin/order` | 接单、拒单、派送、完成 |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java](), [order-service/src/main/java/com/sky/controller/user/OrderController.java](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java`, `order-service/src/main/java/com/sky/controller/user/OrderController.java`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java`
 
 ## 总结
 
@@ -2136,14 +2140,14 @@ Related topics: [网关路由与认证机制](#page-gateway-auth-routing), [扩�
 
 The following files were used as context for generating this wiki page:
 
-- [sky-common/src/main/java/com/sky/result/Result.java](sky-common/src/main/java/com/sky/result/Result.java)
-- [sky-common/src/main/java/com/sky/result/PageResult.java](sky-common/src/main/java/com/sky/result/PageResult.java)
-- [sky-common/src/main/java/com/sky/exception/BaseException.java](sky-common/src/main/java/com/sky/exception/BaseException.java)
-- [sky-common/src/main/java/com/sky/interceptor/JwtTokenAdminInterceptor.java](sky-common/src/main/java/com/sky/interceptor/JwtTokenAdminInterceptor.java)
-- [sky-common/src/main/java/com/sky/interceptor/JwtTokenUserInterceptor.java](sky-common/src/main/java/com/sky/interceptor/JwtTokenUserInterceptor.java)
-- [sky-common/src/main/java/com/sky/constant/MessageConstant.java](sky-common/src/main/java/com/sky/constant/MessageConstant.java)
-- [sky-common/src/main/java/com/sky/context/BaseContext.java](sky-common/src/main/java/com/sky/context/BaseContext.java)
-- [sky-common/src/main/java/com/sky/utils/JwtTool.java](sky-common/src/main/java/com/sky/utils/JwtTool.java)
+- `sky-common/src/main/java/com/sky/result/Result.java`
+- `sky-common/src/main/java/com/sky/result/PageResult.java`
+- `sky-common/src/main/java/com/sky/exception/BaseException.java`
+- `sky-common/src/main/java/com/sky/interceptor/JwtTokenAdminInterceptor.java`
+- `sky-common/src/main/java/com/sky/interceptor/JwtTokenUserInterceptor.java`
+- `sky-common/src/main/java/com/sky/constant/MessageConstant.java`
+- `sky-common/src/main/java/com/sky/context/BaseContext.java`
+- `sky-common/src/main/java/com/sky/utils/JwtTool.java`
 </details>
 
 # 公共后端组件与异常体系
@@ -2151,7 +2155,7 @@ The following files were used as context for generating this wiki page:
 公共后端组件主要由 `sky-common`、`sky-gateway`、`sky-pojo` 提供，为业务服务封装通用能力，包括 JWT 生成与解析、JWT 声明常量、状态常量、业务异常类型、阿里云 OSS 文件上传工具，以及报表 VO 数据结构。这些组件被购物车、订单、报表等业务控制器所依赖或服务于其业务场景。  
 可重点查看 [JWT 组件](#jwt-组件) 与 [异常体系](#异常体系)。
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12](), [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:1-16](), [sky-common/src/main/java/com/sky/constant/StatusConstant.java:1-14](), [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`, `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:1-16`, `sky-common/src/main/java/com/sky/constant/StatusConstant.java:1-14`, `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ## 组件总览
 
@@ -2174,7 +2178,7 @@ I[sky-pojo] --> J[OrderReportVO]
 
 该图展示了公共后端组件在项目中的基本分布关系。
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10](), [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10`, `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 | 组件 | 所属模块 | 作用 |
 |---|---|---|
@@ -2186,7 +2190,7 @@ Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53](), [sky-gate
 | `AliOssUtil` | `sky-common` | 阿里云 OSS 文件上传 |
 | `OrderReportVO` | `sky-pojo` | 订单统计报表返回结构 |
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12](), [sky-common/src/main/java/com/sky/constant/StatusConstant.java:1-14](), [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:1-16](), [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`, `sky-common/src/main/java/com/sky/constant/StatusConstant.java:1-14`, `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:1-16`, `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ## JWT 组件
 
@@ -2210,7 +2214,7 @@ public static String createJWT(String secretKey, long ttlMillis, Map<String, Obj
 }
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42`
 
 `createJWT` 的核心流程：
 
@@ -2229,7 +2233,7 @@ D --> E[设置过期时间]
 E --> F[返回token]
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-42`
 
 `parseJWT` 用于解析并校验 JWT，返回 `Claims` 主体内容。
 
@@ -2242,7 +2246,7 @@ public static Claims parseJWT(String secretKey, String token) {
 }
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59`
 
 ### sky-gateway 中的 JwtTool
 
@@ -2256,7 +2260,7 @@ public static Claims parseJWT(String secretKey, String token) {
 }
 ```
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-53]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-53`
 
 ```mermaid
 sequenceDiagram
@@ -2270,7 +2274,7 @@ J-->>-C: 返回Claims
 
 该序列图描述了网关或调用方通过 `parseJWT` 解析 Token 并获取 `Claims` 的过程。
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-53]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-53`
 
 ## JWT 声明常量
 
@@ -2281,11 +2285,11 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-53]()
 | `EMP_ID` | `userId` | 员工/用户身份标识 |
 | `USER_ID` | `userId` | 用户身份标识 |
 
-Sources: [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:4-6](), [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:4-6]()
+Sources: `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:4-6`, `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:4-6`
 
 两个模块中的常量定义相同，注释中说明这样设置是为了方便 `FeignClient` 在微服务之间传递请求。
 
-Sources: [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:5](), [sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5]()
+Sources: `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:5`, `sky-gateway/src/main/java/com/sky/gateway/constant/JwtClaimsConstant.java:5`
 
 ## 异常体系
 
@@ -2301,7 +2305,7 @@ B --> E[ShoppingCartBusinessException]
 
 该图展示了当前代码中可见的业务异常继承关系。
 
-Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6](), [sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3](), [sky-common/src/main/java/com/sky/exception/ShoppingCartBusinessException.java:3]()
+Sources: `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6`, `sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3`, `sky-common/src/main/java/com/sky/exception/ShoppingCartBusinessException.java:3`
 
 | 异常类 | 业务含义 | 构造方式 |
 |---|---|---|
@@ -2310,26 +2314,26 @@ Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.ja
 | `OrderBusinessException` | 订单业务异常 | 带消息构造 |
 | `ShoppingCartBusinessException` | 购物车业务异常 | 带消息构造 |
 
-Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:8-14](), [sky-common/src/main/java/com/sky/exception/AccountLockedException.java:8-14](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:5-7](), [sky-common/src/main/java/com/sky/exception/ShoppingCartBusinessException.java:5-7]()
+Sources: `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:8-14`, `sky-common/src/main/java/com/sky/exception/AccountLockedException.java:8-14`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:5-7`, `sky-common/src/main/java/com/sky/exception/ShoppingCartBusinessException.java:5-7`
 
 ### 账号类异常
 
 `AccountNotFoundException` 用于表示账号不存在，`AccountLockedException` 用于表示账号被锁定。两者都提供无参构造与带消息构造。
 
-Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-14](), [sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6-14]()
+Sources: `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-14`, `sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6-14`
 
 ### 订单与购物车异常
 
 `OrderBusinessException` 与 `ShoppingCartBusinessException` 分别表示订单业务与购物车业务中的异常。它们只提供了带错误消息的构造方法。
 
-Sources: [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-8](), [sky-common/src/main/java/com/sky/exception/ShoppingCartBusinessException.java:3-8]()
+Sources: `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-8`, `sky-common/src/main/java/com/sky/exception/ShoppingCartBusinessException.java:3-8`
 
 从业务控制器来看，订单与购物车确实是两个独立业务域：
 
 - 订单控制器提供接单、拒单、取消、派送、完成等操作
 - 购物车控制器提供添加、查看、清空、删除等操作
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:29-98]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:29-98`
 
 ## 状态常量
 
@@ -2340,11 +2344,11 @@ Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.j
 | `ENABLE` | `1` | 启用 |
 | `DISABLE` | `0` | 禁用 |
 
-Sources: [sky-common/src/main/java/com/sky/constant/StatusConstant.java:8-13]()
+Sources: `sky-common/src/main/java/com/sky/constant/StatusConstant.java:8-13`
 
 该常量通常用于统一表示业务实体的启用/禁用状态，避免在代码中直接使用魔法数字。
 
-Sources: [sky-common/src/main/java/com/sky/constant/StatusConstant.java:5-13]()
+Sources: `sky-common/src/main/java/com/sky/constant/StatusConstant.java:5-13`
 
 ## 阿里云 OSS 工具
 
@@ -2357,7 +2361,7 @@ Sources: [sky-common/src/main/java/com/sky/constant/StatusConstant.java:5-13]()
 
 并在 `finally` 中关闭 `ossClient`。
 
-Sources: [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-62]()
+Sources: `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-62`
 
 上传成功后，工具按照如下规则拼接文件访问地址：
 
@@ -2365,7 +2369,7 @@ Sources: [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-62]()
 https://BucketName.Endpoint/ObjectName
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:63-77]()
+Sources: `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:63-77`
 
 ```java
 StringBuilder stringBuilder = new StringBuilder("https://");
@@ -2377,7 +2381,7 @@ stringBuilder
         .append(objectName);
 ```
 
-Sources: [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:63-71]()
+Sources: `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:63-71`
 
 ## 报表数据契约
 
@@ -2392,11 +2396,11 @@ Sources: [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:63-71]()
 | `validOrderCount` | `Integer` | 有效订单数 |
 | `orderCompletionRate` | `Double` | 订单完成率 |
 
-Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-33]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-33`
 
 报表控制器中的 `ordersStatistics` 接口返回 `Result<OrderReportVO>`，说明该 VO 是订单统计接口的标准返回结构。
 
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:70-77]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:70-77`
 
 ## 业务接口场景
 
@@ -2408,17 +2412,17 @@ Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:7
 | `OrderController` | 接单、拒单、取消订单、派送订单、完成订单 |
 | `ReportController` | 订单统计、销量 Top10、导出运营数据报表 |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:29-98](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:70-105]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:29-98`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:70-105`
 
 这些控制器体现了公共组件所支撑的业务范围：用户购物车操作、订单状态流转、运营数据统计与导出。
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:29-98](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:70-105]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:29-98`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:70-105`
 
 ## 总结
 
 本项目的公共后端组件与异常体系主要围绕 JWT 身份认证、通用常量、业务异常、OSS 文件上传和报表数据模型展开。`sky-common` 提供核心通用能力，`sky-gateway` 提供网关侧 Token 解析能力，`sky-pojo` 提供业务 VO 结构。异常体系通过 `BaseException` 的子类划分账号、订单、购物车等业务错误域，为业务服务提供统一的错误表达基础。
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48](), [sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12](), [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:1-16](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10](), [sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:1-53`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:1-48`, `sky-common/src/main/java/com/sky/constant/JwtClaimsConstant.java:1-12`, `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:1-16`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:1-10`, `sky-common/src/main/java/com/sky/utils/AliOssUtil.java:47-77`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:1-35`
 
 ---
 
@@ -2435,20 +2439,20 @@ Related topics: [扩展性与定制能力](#page-extensibility-customization)
 
 The following files were used as context for generating this wiki page:
 
-- [README.md](README.md)
-- [sky-common/src/main/java/com/sky/utils/HttpClientUtil.java](sky-common/src/main/java/com/sky/utils/HttpClientUtil.java)
-- [sky-api/src/main/java/com/sky/api/config/DefaultFeignConfig.java](sky-api/src/main/java/com/sky/api/config/DefaultFeignConfig.java)
+- `README.md`
+- `sky-common/src/main/java/com/sky/utils/HttpClientUtil.java`
+- `sky-api/src/main/java/com/sky/api/config/DefaultFeignConfig.java`
 </details>
 
 # 模型集成现状
 
-在当前提供的源码范围内，未发现独立的机器学习模型、推理服务、模型仓库或外部模型 API 适配层。因此，“模型集成现状”应理解为项目中领域数据模型（如 DTO、VO、实体对象）与微服务接口、业务流程之间的集成现状。当前项目主要通过 Controller 暴露 REST 接口，通过 Service 接口承载业务逻辑，通过 Feign Client 完成跨服务调用，并通过 DTO/VO 在接口层与业务层之间传递数据。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105]()
+在当前提供的源码范围内，未发现独立的机器学习模型、推理服务、模型仓库或外部模型 API 适配层。因此，“模型集成现状”应理解为项目中领域数据模型（如 DTO、VO、实体对象）与微服务接口、业务流程之间的集成现状。当前项目主要通过 Controller 暴露 REST 接口，通过 Service 接口承载业务逻辑，通过 Feign Client 完成跨服务调用，并通过 DTO/VO 在接口层与业务层之间传递数据。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`
 
-整体来看，购物车、订单、报表三个模块构成了当前源码中最主要的模型集成路径：购物车模块通过 `ShoppingCartController`、`ShoppingCartService`、`ShoppingCartClient` 形成用户端数据模型集成；订单模块通过用户端和管理端 `OrderController` 以及 `OrdersCancelDTO`、`OrdersRejectionDTO` 等 DTO 完成订单状态流转模型集成；报表模块通过 `ReportController` 与 `TurnoverReportVO`、`OrderReportVO` 等 VO 完成统计输出模型集成。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105]()
+整体来看，购物车、订单、报表三个模块构成了当前源码中最主要的模型集成路径：购物车模块通过 `ShoppingCartController`、`ShoppingCartService`、`ShoppingCartClient` 形成用户端数据模型集成；订单模块通过用户端和管理端 `OrderController` 以及 `OrdersCancelDTO`、`OrdersRejectionDTO` 等 DTO 完成订单状态流转模型集成；报表模块通过 `ReportController` 与 `TurnoverReportVO`、`OrderReportVO` 等 VO 完成统计输出模型集成。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`
 
 ## 总体集成架构
 
-当前源码体现的集成架构是典型的分层结构：客户端请求进入 Controller，Controller 调用 Service 或 Mapper，Feign Client 用于跨服务访问，DTO/VO 作为接口模型在层之间传递。JWT 工具类则为接口调用提供令牌解析能力。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62]()
+当前源码体现的集成架构是典型的分层结构：客户端请求进入 Controller，Controller 调用 Service 或 Mapper，Feign Client 用于跨服务访问，DTO/VO 作为接口模型在层之间传递。JWT 工具类则为接口调用提供令牌解析能力。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`
 
 ```mermaid
 graph TD
@@ -2462,15 +2466,15 @@ C --> H[DTO模型]
 C --> I[VO模型]
 ```
 
-该图展示了当前源码中模型集成的主要路径：接口层接收请求，业务层处理数据，持久层完成存储，Feign 客户端完成远程服务调用，DTO/VO 承载数据模型。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105]()
+该图展示了当前源码中模型集成的主要路径：接口层接收请求，业务层处理数据，持久层完成存储，Feign 客户端完成远程服务调用，DTO/VO 承载数据模型。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`
 
 ## 购物车模型集成
 
-购物车模块的入口是 `ShoppingCartController`，其基础路径为 `/user/shoppingCart`。该 Controller 同时注入了 `ShoppingCartService` 与 `ShoppingCartMapper`，说明购物车接口既存在通过 Service 层处理的业务路径，也存在直接调用 Mapper 的数据访问路径。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-27]()
+购物车模块的入口是 `ShoppingCartController`，其基础路径为 `/user/shoppingCart`。该 Controller 同时注入了 `ShoppingCartService` 与 `ShoppingCartMapper`，说明购物车接口既存在通过 Service 层处理的业务路径，也存在直接调用 Mapper 的数据访问路径。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-27`
 
 ### 购物车接口模型
 
-购物车 Controller 提供了添加购物车、批量添加、查看购物车、清空购物车、按用户 ID 清空购物车、删除购物车中一个商品等接口。其中，`/add`、`/list`、`/clean`、`/sub` 通过 `ShoppingCartService` 处理，而 `/insertBatch` 与 `/deleteByUserId` 直接调用 `ShoppingCartMapper`。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98]()
+购物车 Controller 提供了添加购物车、批量添加、查看购物车、清空购物车、按用户 ID 清空购物车、删除购物车中一个商品等接口。其中，`/add`、`/list`、`/clean`、`/sub` 通过 `ShoppingCartService` 处理，而 `/insertBatch` 与 `/deleteByUserId` 直接调用 `ShoppingCartMapper`。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`
 
 | HTTP 方法 | 路径 | 功能 | 调用对象 | 说明 |
 |---|---|---|---|---|
@@ -2481,11 +2485,11 @@ C --> I[VO模型]
 | DELETE | `/user/shoppingCart/deleteByUserId` | 按用户 ID 清空购物车 | `ShoppingCartMapper` | 直接调用 Mapper |
 | POST | `/user/shoppingCart/sub` | 删除购物车中一个商品 | `ShoppingCartService` | 接收 `ShoppingCartDTO` |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`
 
 ### 购物车服务接口模型
 
-`ShoppingCartService` 定义了购物车业务能力的抽象接口，包括添加购物车、查看购物车、清空购物车、删除购物车中一个商品。该接口是购物车模型在业务层的核心契约。Sources: [cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33]()
+`ShoppingCartService` 定义了购物车业务能力的抽象接口，包括添加购物车、查看购物车、清空购物车、删除购物车中一个商品。该接口是购物车模型在业务层的核心契约。Sources: `cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33`
 
 ```mermaid
 classDiagram
@@ -2506,11 +2510,11 @@ class ShoppingCartController {
 ShoppingCartController --> ShoppingCartService : 调用业务
 ```
 
-该图展示了购物车 Controller 与 Service 的方法关系。Controller 负责暴露 HTTP 接口，Service 负责定义购物车业务模型。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98](), [cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33]()
+该图展示了购物车 Controller 与 Service 的方法关系。Controller 负责暴露 HTTP 接口，Service 负责定义购物车业务模型。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-98`, `cart-service/src/main/java/com/sky/service/ShoppingCartService.java:9-33`
 
 ### 购物车 Feign 集成模型
 
-`ShoppingCartClient` 是购物车模块的 Feign 客户端接口，指向服务名 `cart-service`，基础路径为 `/user/shoppingCart`，并配置了 `fallbackFactory = ShoppingCartClientFallBack.class`。当前客户端仅暴露 `list`、`insertBatch`、`clean` 三个远程调用方法，未暴露 `/sub` 或 `/deleteByUserId`。Sources: [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:15-31]()
+`ShoppingCartClient` 是购物车模块的 Feign 客户端接口，指向服务名 `cart-service`，基础路径为 `/user/shoppingCart`，并配置了 `fallbackFactory = ShoppingCartClientFallBack.class`。当前客户端仅暴露 `list`、`insertBatch`、`clean` 三个远程调用方法，未暴露 `/sub` 或 `/deleteByUserId`。Sources: `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:15-31`
 
 | Feign 方法 | HTTP 方法 | 路径 | 返回模型 | 说明 |
 |---|---|---|---|---|
@@ -2518,7 +2522,7 @@ ShoppingCartController --> ShoppingCartService : 调用业务
 | `insertBatch(list)` | POST | `/insertBatch` | `Result` | 批量写入购物车 |
 | `clean()` | DELETE | `/clean` | `Result` | 清空购物车 |
 
-Sources: [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:21-31]()
+Sources: `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:21-31`
 
 ```mermaid
 sequenceDiagram
@@ -2548,15 +2552,15 @@ CS-->>-C: Result
 C-->>-U: 返回结果
 ```
 
-该时序图展示了购物车模型通过 Feign Client 调用 `cart-service` 的集成路径。其中批量写入路径直接由 Controller 调用 Mapper，而不是经过 Service。Sources: [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:21-31](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:44-98]()
+该时序图展示了购物车模型通过 Feign Client 调用 `cart-service` 的集成路径。其中批量写入路径直接由 Controller 调用 Mapper，而不是经过 Service。Sources: `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:21-31`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:44-98`
 
 ## 订单模型集成
 
-订单模块分为用户端订单接口和管理端订单接口。用户端订单接口位于 `order-service` 的 `com.sky.controller.user.OrderController`，基础路径为 `/user/order`；管理端订单接口位于 `order-service` 的 `com.sky.controller.admin.OrderController`，提供接单、拒单、取消、派送、完成等订单状态操作。Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:14-18](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+订单模块分为用户端订单接口和管理端订单接口。用户端订单接口位于 `order-service` 的 `com.sky.controller.user.OrderController`，基础路径为 `/user/order`；管理端订单接口位于 `order-service` 的 `com.sky.controller.admin.OrderController`，提供接单、拒单、取消、派送、完成等订单状态操作。Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:14-18`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ### 用户端订单接口模型
 
-用户端订单接口当前提供用户下单、历史订单查询、订单详情查询三个可见接口。源码片段中的订单支付接口处于注释状态，未作为当前可用接口暴露。Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:24-75]()
+用户端订单接口当前提供用户下单、历史订单查询、订单详情查询三个可见接口。源码片段中的订单支付接口处于注释状态，未作为当前可用接口暴露。Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:24-75`
 
 | HTTP 方法 | 路径 | 功能 | 入参 | 返回模型 |
 |---|---|---|---|---|
@@ -2564,13 +2568,13 @@ C-->>-U: 返回结果
 | GET | `/user/order/historyOrders` | 历史订单查询 | `page`、`pageSize`、`status` | `Result<PageResult>` |
 | GET | `/user/order/orderDetail/{id}` | 查询订单详情 | 路径参数 `id` | `Result<OrderVO>` |
 
-Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:24-75]()
+Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:24-75`
 
-历史订单查询接口注释中给出了订单状态含义：1 待付款、2 待接单、3 已接单、4 派送中、5 已完成、6 已取消。该状态模型是订单集成中的关键业务约束。Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.java:52-61]()
+历史订单查询接口注释中给出了订单状态含义：1 待付款、2 待接单、3 已接单、4 派送中、5 已完成、6 已取消。该状态模型是订单集成中的关键业务约束。Sources: `order-service/src/main/java/com/sky/controller/user/OrderController.java:52-61`
 
 ### 管理端订单状态模型
 
-管理端订单接口围绕订单状态流转提供能力，包括接单、拒单、取消订单、派送订单、完成订单。这些接口统一通过 `OrderService` 执行业务逻辑，并返回 `Result.success()`。Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+管理端订单接口围绕订单状态流转提供能力，包括接单、拒单、取消订单、派送订单、完成订单。这些接口统一通过 `OrderService` 执行业务逻辑，并返回 `Result.success()`。Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 | HTTP 方法 | 路径 | 功能 | 请求体/参数 | 服务方法 |
 |---|---|---|---|---|
@@ -2580,7 +2584,7 @@ Sources: [order-service/src/main/java/com/sky/controller/user/OrderController.ja
 | PUT | `/delivery/{id}` | 派送订单 | 路径参数 `id` | `orderService.delivery` |
 | PUT | `/complete/{id}` | 完成订单 | 路径参数 `id` | `orderService.complete` |
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ```mermaid
 sequenceDiagram
@@ -2610,11 +2614,11 @@ OS-->>-OC: 完成
 OC-->>-A: 成功
 ```
 
-该时序图展示了管理端订单状态模型的集成路径：管理端请求进入 `OrderController`，由 `OrderService` 完成状态处理，再返回统一结果。Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+该时序图展示了管理端订单状态模型的集成路径：管理端请求进入 `OrderController`，由 `OrderService` 完成状态处理，再返回统一结果。Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ### 订单 DTO 模型
 
-订单状态操作依赖 DTO 承载请求模型。当前源码提供了 `OrdersCancelDTO` 与 `OrdersRejectionDTO`。`OrdersCancelDTO` 包含订单 ID 和取消原因，`OrdersRejectionDTO` 包含订单 ID 和拒绝原因。Sources: [sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:8-14](), [sky-pojo/src/main/java/com/sky/dto/OrdersRejectionDTO.java:8-15]()
+订单状态操作依赖 DTO 承载请求模型。当前源码提供了 `OrdersCancelDTO` 与 `OrdersRejectionDTO`。`OrdersCancelDTO` 包含订单 ID 和取消原因，`OrdersRejectionDTO` 包含订单 ID 和拒绝原因。Sources: `sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:8-14`, `sky-pojo/src/main/java/com/sky/dto/OrdersRejectionDTO.java:8-15`
 
 | DTO | 字段 | 类型 | 说明 |
 |---|---|---|---|
@@ -2623,15 +2627,15 @@ OC-->>-A: 成功
 | `OrdersRejectionDTO` | `id` | `Long` | 订单 ID |
 | `OrdersRejectionDTO` | `rejectionReason` | `String` | 订单拒绝原因 |
 
-Sources: [sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:8-14](), [sky-pojo/src/main/java/com/sky/dto/OrdersRejectionDTO.java:8-15]()
+Sources: `sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:8-14`, `sky-pojo/src/main/java/com/sky/dto/OrdersRejectionDTO.java:8-15`
 
 ## 报表模型集成
 
-报表模块由 `ReportController` 提供，基础路径为 `/admin/report`。该模块通过 `ReportService` 生成统计结果，并以 VO 模型返回给前端或导出响应。当前可见的报表模型包括营业额统计、用户统计、订单统计、销量排名 Top10 和运营数据导出。Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:24-105]()
+报表模块由 `ReportController` 提供，基础路径为 `/admin/report`。该模块通过 `ReportService` 生成统计结果，并以 VO 模型返回给前端或导出响应。当前可见的报表模型包括营业额统计、用户统计、订单统计、销量排名 Top10 和运营数据导出。Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:24-105`
 
 ### 报表接口模型
 
-报表接口均使用 `begin` 和 `end` 作为日期查询参数，并通过 `@DateTimeFormat(pattern = "yyyy-MM-dd")` 约束日期格式。导出接口不使用 JSON 返回模型，而是直接操作 `HttpServletResponse`。Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:36-105]()
+报表接口均使用 `begin` 和 `end` 作为日期查询参数，并通过 `@DateTimeFormat(pattern = "yyyy-MM-dd")` 约束日期格式。导出接口不使用 JSON 返回模型，而是直接操作 `HttpServletResponse`。Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:36-105`
 
 | HTTP 方法 | 路径 | 功能 | 返回/输出 |
 |---|---|---|---|
@@ -2641,7 +2645,7 @@ Sources: [sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:8-14](), [sky-
 | GET | `/admin/report/top10` | 销量排名 Top10 | `Result<SalesTop10ReportVO>` |
 | GET | `/admin/report/export` | 导出运营数据报表 | 写入 `HttpServletResponse` |
 
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:36-105]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:36-105`
 
 ```mermaid
 graph TD
@@ -2654,11 +2658,11 @@ C --> G[SalesTop10ReportVO]
 C --> H[导出响应]
 ```
 
-该图展示了报表模块的数据模型输出路径：`ReportController` 接收日期范围参数，`ReportService` 生成不同 VO 或导出响应。Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:36-105]()
+该图展示了报表模块的数据模型输出路径：`ReportController` 接收日期范围参数，`ReportService` 生成不同 VO 或导出响应。Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:36-105`
 
 ### 报表 VO 模型
 
-`TurnoverReportVO` 使用字符串列表形式承载日期和营业额数据，`OrderReportVO` 使用字符串列表形式承载日期、订单数、有效订单数，并提供订单总数、有效订单数和订单完成率。这些 VO 是报表集成中的输出模型。Sources: [sky-pojo/src/main/java/com/sky/vo/TurnoverReportVO.java:14-22](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-34]()
+`TurnoverReportVO` 使用字符串列表形式承载日期和营业额数据，`OrderReportVO` 使用字符串列表形式承载日期、订单数、有效订单数，并提供订单总数、有效订单数和订单完成率。这些 VO 是报表集成中的输出模型。Sources: `sky-pojo/src/main/java/com/sky/vo/TurnoverReportVO.java:14-22`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-34`
 
 | VO | 字段 | 类型 | 说明 |
 |---|---|---|---|
@@ -2671,18 +2675,18 @@ C --> H[导出响应]
 | `OrderReportVO` | `validOrderCount` | `Integer` | 有效订单数 |
 | `OrderReportVO` | `orderCompletionRate` | `Double` | 订单完成率 |
 
-Sources: [sky-pojo/src/main/java/com/sky/vo/TurnoverReportVO.java:14-22](), [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-34]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/TurnoverReportVO.java:14-22`, `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:14-34`
 
 ## 认证模型与异常模型支撑
 
-当前源码中存在两个 `JwtTool` 实现，分别位于 `sky-common` 与 `sky-gateway`。二者均提供 `parseJWT(String secretKey, String token)` 方法，用于解析 JWT 并返回 `Claims`。该能力构成接口认证模型的基础支撑。Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-55]()
+当前源码中存在两个 `JwtTool` 实现，分别位于 `sky-common` 与 `sky-gateway`。二者均提供 `parseJWT(String secretKey, String token)` 方法，用于解析 JWT 并返回 `Claims`。该能力构成接口认证模型的基础支撑。Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-55`
 
 | 位置 | 方法 | 输入 | 输出 | 说明 |
 |---|---|---|---|---|
 | `sky-common` | `parseJWT` | `secretKey`、`token` | `Claims` | 通用 JWT 解析工具 |
 | `sky-gateway` | `parseJWT` | `secretKey`、`token` | `Claims` | 网关侧 JWT 解析工具 |
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-55]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-55`
 
 ```mermaid
 sequenceDiagram
@@ -2692,9 +2696,9 @@ G->>+J: parseJWT
 J-->>-G: Claims
 ```
 
-该时序图展示了 JWT 认证模型的最小集成路径：调用方传入密钥和令牌，`JwtTool` 返回解析后的 `Claims`。Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-55]()
+该时序图展示了 JWT 认证模型的最小集成路径：调用方传入密钥和令牌，`JwtTool` 返回解析后的 `Claims`。Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:46-55`
 
-异常模型方面，源码提供了 `AccountNotFoundException`、`AccountLockedException`、`OrderBusinessException`，它们均继承自 `BaseException`，用于表达账号不存在、账号锁定和订单业务异常。`MessageConstant` 则提供了与账号、订单、购物车等业务提示相关的常量。Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-15](), [sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6-15](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-9](), [sky-common/src/main/java/com/sky/constant/MessageConstant.java:6-28]()
+异常模型方面，源码提供了 `AccountNotFoundException`、`AccountLockedException`、`OrderBusinessException`，它们均继承自 `BaseException`，用于表达账号不存在、账号锁定和订单业务异常。`MessageConstant` 则提供了与账号、订单、购物车等业务提示相关的常量。Sources: `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-15`, `sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6-15`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-9`, `sky-common/src/main/java/com/sky/constant/MessageConstant.java:6-28`
 
 | 类型 | 作用 | 相关常量 |
 |---|---|---|
@@ -2703,7 +2707,7 @@ J-->>-G: Claims
 | `OrderBusinessException` | 订单业务异常 | `ORDER_STATUS_ERROR`、`ORDER_NOT_FOUND` |
 | `MessageConstant` | 业务消息常量 | `SHOPPING_CART_IS_NULL`、`ORDER_STATUS_ERROR` 等 |
 
-Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-15](), [sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6-15](), [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-9](), [sky-common/src/main/java/com/sky/constant/MessageConstant.java:6-28]()
+Sources: `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-15`, `sky-common/src/main/java/com/sky/exception/AccountLockedException.java:6-15`, `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-9`, `sky-common/src/main/java/com/sky/constant/MessageConstant.java:6-28`
 
 ## 当前集成状态总结
 
@@ -2715,9 +2719,9 @@ Sources: [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.ja
 | 认证 | 已具备 JWT 解析工具 | `Claims`、`secretKey`、`token` | `JwtTool` |
 | 异常 | 已具备账号与订单业务异常模型 | `AccountNotFoundException`、`AccountLockedException`、`OrderBusinessException` | 异常类与常量类 |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32](), [order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32`, `order-service/src/main/java/com/sky/controller/user/OrderController.java:1-75`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`
 
-综合来看，当前项目的“模型集成”主要体现在领域数据模型与服务接口之间的绑定：购物车模块通过 Feign 客户端形成跨服务模型调用，订单模块通过 DTO 和管理端接口形成状态流转模型，报表模块通过 VO 形成统计输出模型，JWT 工具类与异常体系则为接口集成提供认证和错误处理支撑。Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62]()
+综合来看，当前项目的“模型集成”主要体现在领域数据模型与服务接口之间的绑定：购物车模块通过 Feign 客户端形成跨服务模型调用，订单模块通过 DTO 和管理端接口形成状态流转模型，报表模块通过 VO 形成统计输出模型，JWT 工具类与异常体系则为接口集成提供认证和错误处理支撑。Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java:1-32`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:39-62`
 
 ---
 
@@ -2734,19 +2738,19 @@ Related topics: [项目概览与演进](#page-overview), [微服务架构总览]
 
 The following files were used as context for generating this wiki page:
 
-- [admin-service/src/main/resources/application.yml](admin-service/src/main/resources/application.yml)
-- [admin-service/src/main/resources/bootstrap.yml](admin-service/src/main/resources/bootstrap.yml)
-- [cart-service/src/main/resources/application.yml](cart-service/src/main/resources/application.yml)
-- [cart-service/src/main/resources/bootstrap.yml](cart-service/src/main/resources/bootstrap.yml)
-- [item-service/src/main/resources/application.yml](item-service/src/main/resources/application.yml)
-- [item-service/src/main/resources/bootstrap.yml](item-service/src/main/resources/bootstrap.yml)
-- [order-service/src/main/resources/application.yml](order-service/src/main/resources/application.yml)
-- [order-service/src/main/resources/bootstrap.yml](order-service/src/main/resources/bootstrap.yml)
-- [user-service/src/main/resources/application.yml](user-service/src/main/resources/application.yml)
-- [user-service/src/main/resources/bootstrap.yml](user-service/src/main/resources/bootstrap.yml)
-- [sky-gateway/src/main/resources/application.yml](sky-gateway/src/main/resources/application.yml)
-- [sky-gateway/src/main/resources/bootstrap.yaml](sky-gateway/src/main/resources/bootstrap.yaml)
-- [.claude/settings.local.json](.claude/settings.local.json)
+- `admin-service/src/main/resources/application.yml`
+- `admin-service/src/main/resources/bootstrap.yml`
+- `cart-service/src/main/resources/application.yml`
+- `cart-service/src/main/resources/bootstrap.yml`
+- `item-service/src/main/resources/application.yml`
+- `item-service/src/main/resources/bootstrap.yml`
+- `order-service/src/main/resources/application.yml`
+- `order-service/src/main/resources/bootstrap.yml`
+- `user-service/src/main/resources/application.yml`
+- `user-service/src/main/resources/bootstrap.yml`
+- `sky-gateway/src/main/resources/application.yml`
+- `sky-gateway/src/main/resources/bootstrap.yaml`
+- `.claude/settings.local.json`
 </details>
 
 # 部署配置与运行环境
@@ -2774,7 +2778,7 @@ graph TD
 ```
 
 该图基于源码中出现的模块路径、控制器与服务接口归纳而成，用于表达运行时组件关系。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-85](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-80](), [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-85`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-80`, `item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90`
 
 ## Spring Boot 启动入口
 
@@ -2790,7 +2794,7 @@ public class GatewayApplication {
 ```
 
 这是当前源码上下文中唯一直接展示的 Spring Boot 进程启动入口。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:6-11]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:6-11`
 
 ## 主要运行时模块与职责
 
@@ -2803,7 +2807,7 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:6-11
 | `admin-service` | `ReportController`、`ReportService`、`EmployeeService` | 数据统计报表与员工业务能力定义 |
 | `item-service` | `WebMvcConfiguration` | 商品或店铺相关接口文档配置 |
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:6-11](), [user-service/src/main/java/com/sky/controller/UserController.java:22-74](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-85](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [admin-service/src/main/java/com/sky/controller/ReportController.java:23-80](), [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:6-11`, `user-service/src/main/java/com/sky/controller/UserController.java:22-74`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-85`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `admin-service/src/main/java/com/sky/controller/ReportController.java:23-80`, `item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90`
 
 ## Web 接口运行环境
 
@@ -2813,10 +2817,10 @@ Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:6-11
 
 | HTTP 方法 | 路径 | 功能 | 源码位置 |
 |---|---|---|---|
-| `POST` | `/user/user/login` | 顾客登录并返回 JWT | [user-service/src/main/java/com/sky/controller/UserController.java:40-59]() |
-| `POST` | `/user/user` | 新增用户 | [user-service/src/main/java/com/sky/controller/UserController.java:61-73]() |
+| `POST` | `/user/user/login` | 顾客登录并返回 JWT | `user-service/src/main/java/com/sky/controller/UserController.java:40-59` |
+| `POST` | `/user/user` | 新增用户 | `user-service/src/main/java/com/sky/controller/UserController.java:61-73` |
 
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:22-74]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:22-74`
 
 ### 购物车接口
 
@@ -2824,14 +2828,14 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:22-7
 
 | HTTP 方法 | 路径 | 功能 | 源码位置 |
 |---|---|---|---|
-| `POST` | `/user/shoppingCart/add` | 添加购物车 | [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-39]() |
-| `POST` | `/user/shoppingCart/insertBatch` | 批量添加购物车 | [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:41-50]() |
-| `GET` | `/user/shoppingCart/list` | 查看购物车 | [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:52-60]() |
-| `DELETE` | `/user/shoppingCart/clean` | 清空购物车 | [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:66-73]() |
-| `DELETE` | `/user/shoppingCart/deleteByUserId` | 根据用户 ID 清空购物车 | [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:75-84]() |
-| `POST` | `/user/shoppingCart/sub` | 删除购物车中一个商品 | [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:86-97]() |
+| `POST` | `/user/shoppingCart/add` | 添加购物车 | `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-39` |
+| `POST` | `/user/shoppingCart/insertBatch` | 批量添加购物车 | `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:41-50` |
+| `GET` | `/user/shoppingCart/list` | 查看购物车 | `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:52-60` |
+| `DELETE` | `/user/shoppingCart/clean` | 清空购物车 | `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:66-73` |
+| `DELETE` | `/user/shoppingCart/deleteByUserId` | 根据用户 ID 清空购物车 | `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:75-84` |
+| `POST` | `/user/shoppingCart/sub` | 删除购物车中一个商品 | `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:86-97` |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-98]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:17-98`
 
 ### 管理端订单接口
 
@@ -2839,13 +2843,13 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 
 | HTTP 方法 | 路径 | 功能 | 源码位置 |
 |---|---|---|---|
-| `PUT` | `/confirm` | 接单 | [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-78]() |
-| `PUT` | `/rejection` | 拒单 | [order-service/src/main/java/com/sky/controller/admin/OrderController.java:80-90]() |
-| `PUT` | `/cancel` | 取消订单 | [order-service/src/main/java/com/sky/controller/admin/OrderController.java:92-102]() |
-| `PUT` | `/delivery/{id}` | 派送订单 | [order-service/src/main/java/com/sky/controller/admin/OrderController.java:104-113]() |
-| `PUT` | `/complete/{id}` | 完成订单 | [order-service/src/main/java/com/sky/controller/admin/OrderController.java:115-124]() |
+| `PUT` | `/confirm` | 接单 | `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-78` |
+| `PUT` | `/rejection` | 拒单 | `order-service/src/main/java/com/sky/controller/admin/OrderController.java:80-90` |
+| `PUT` | `/cancel` | 取消订单 | `order-service/src/main/java/com/sky/controller/admin/OrderController.java:92-102` |
+| `PUT` | `/delivery/{id}` | 派送订单 | `order-service/src/main/java/com/sky/controller/admin/OrderController.java:104-113` |
+| `PUT` | `/complete/{id}` | 完成订单 | `order-service/src/main/java/com/sky/controller/admin/OrderController.java:115-124` |
 
-Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 ### 管理端报表接口
 
@@ -2853,13 +2857,13 @@ Sources: [order-service/src/main/java/com/sky/controller/admin/OrderController.j
 
 | HTTP 方法 | 路径 | 功能 | 源码位置 |
 |---|---|---|---|
-| `GET` | `/admin/report/turnoverStatistics` | 营业额统计 | [admin-service/src/main/java/com/sky/controller/ReportController.java:39-47]() |
-| `GET` | `/admin/report/userStatistics` | 用户统计 | [admin-service/src/main/java/com/sky/controller/ReportController.java:49-61]() |
-| `GET` | `/admin/report/ordersStatistics` | 订单统计 | [admin-service/src/main/java/com/sky/controller/ReportController.java:63-75]() |
-| `GET` | `/admin/report/top10` | 销量排名 Top10 | [admin-service/src/main/java/com/sky/controller/ReportController.java:80-93]() |
-| `GET` | `/admin/report/export` | 导出运营数据报表 | [admin-service/src/main/java/com/sky/controller/ReportController.java:95-104]() |
+| `GET` | `/admin/report/turnoverStatistics` | 营业额统计 | `admin-service/src/main/java/com/sky/controller/ReportController.java:39-47` |
+| `GET` | `/admin/report/userStatistics` | 用户统计 | `admin-service/src/main/java/com/sky/controller/ReportController.java:49-61` |
+| `GET` | `/admin/report/ordersStatistics` | 订单统计 | `admin-service/src/main/java/com/sky/controller/ReportController.java:63-75` |
+| `GET` | `/admin/report/top10` | 销量排名 Top10 | `admin-service/src/main/java/com/sky/controller/ReportController.java:80-93` |
+| `GET` | `/admin/report/export` | 导出运营数据报表 | `admin-service/src/main/java/com/sky/controller/ReportController.java:95-104` |
 
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:23-105]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:23-105`
 
 ## Swagger 接口文档配置
 
@@ -2874,10 +2878,10 @@ graph TD
 ```
 
 `order-service` 的管理端接口文档扫描包为 `com.sky.controller.admin`，用户端接口文档扫描包为 `com.sky.controller`。  
-Sources: [order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91]()
+Sources: `order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91`
 
 `item-service` 同样配置了管理端接口文档，扫描包为 `com.sky.controller.admin`，并配置了用户端接口文档分组。  
-Sources: [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90]()
+Sources: `item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90`
 
 | 服务模块 | Swagger 分组 | 扫描包 | 说明 |
 |---|---|---|---|
@@ -2886,7 +2890,7 @@ Sources: [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-
 | `item-service` | 管理端接口 | `com.sky.controller.admin` | 店铺或商品管理接口文档 |
 | `item-service` | 用户端接口 | 未完整展示 | 用户端接口文档分组 |
 
-Sources: [order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91](), [item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90]()
+Sources: `order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61-91`, `item-service/src/main/java/com/sky/config/WebMvcConfiguration.java:60-90`
 
 ## JWT 认证运行依赖
 
@@ -2900,7 +2904,7 @@ Sources: [order-service/src/main/java/com/sky/config/WebMvcConfiguration.java:61
 | `JwtTool.parseJWT` | `sky-common` | 解析 JWT | 服务端解析令牌 |
 | `JwtTool.parseJWT` | `sky-gateway` | 解析 JWT | 网关侧令牌解析 |
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:14-53](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:10-48]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:14-53`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:10-48`
 
 ### 用户登录 JWT 流程
 
@@ -2924,7 +2928,7 @@ sequenceDiagram
 ```
 
 该流程说明用户服务运行时依赖 `UserService`、`JwtProperties` 与 `JwtTool`。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:40-59](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-41](), [user-service/src/main/java/com/sky/service/UserService.java:7-16]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:40-59`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-41`, `user-service/src/main/java/com/sky/service/UserService.java:7-16`
 
 ### JWT 关键参数
 
@@ -2936,10 +2940,10 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:40-5
 | `ttlMillis` | `long` | 过期时间，单位毫秒 |
 | `claims` | `Map<String, Object>` | JWT 负载声明 |
 
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:24-41]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:24-41`
 
 `parseJWT` 方法通过 `secretKey` 与 token 解析出 `Claims`。  
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:44-54]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:50-60`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:44-54`
 
 ## 业务服务接口运行依赖
 
@@ -2955,7 +2959,7 @@ graph TD
 ```
 
 该图基于控制器与服务接口的依赖关系归纳。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:27-29](), [admin-service/src/main/java/com/sky/controller/ReportController.java:29-31](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128](), [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:22-24](), [admin-service/src/main/java/com/sky/service/EmployeeService.java:9-51]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:27-29`, `admin-service/src/main/java/com/sky/controller/ReportController.java:29-31`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`, `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:22-24`, `admin-service/src/main/java/com/sky/service/EmployeeService.java:9-51`
 
 ### 用户服务接口
 
@@ -2966,7 +2970,7 @@ Sources: [user-service/src/main/java/com/sky/controller/UserController.java:27-2
 | `login(UserLoginDTO)` | 网页登录 |
 | `save(UserDTO)` | 保存用户 |
 
-Sources: [user-service/src/main/java/com/sky/service/UserService.java:7-17]()
+Sources: `user-service/src/main/java/com/sky/service/UserService.java:7-17`
 
 ### 员工服务接口
 
@@ -2981,7 +2985,7 @@ Sources: [user-service/src/main/java/com/sky/service/UserService.java:7-17]()
 | `getById(Long)` | 根据 ID 查询员工 |
 | `update(EmployeeDTO)` | 编辑员工信息 |
 
-Sources: [admin-service/src/main/java/com/sky/service/EmployeeService.java:9-51]()
+Sources: `admin-service/src/main/java/com/sky/service/EmployeeService.java:9-51`
 
 ### 报表服务接口
 
@@ -2995,7 +2999,7 @@ Sources: [admin-service/src/main/java/com/sky/service/EmployeeService.java:9-51]
 | `getSalesTop10(LocalDate, LocalDate)` | `SalesTop10ReportVO` | 销量排名 Top10 |
 | `exportBusinessData(HttpServletResponse)` | `void` | 导出运营数据报表 |
 
-Sources: [admin-service/src/main/java/com/sky/service/ReportService.java:11-51]()
+Sources: `admin-service/src/main/java/com/sky/service/ReportService.java:11-51`
 
 ## 报表数据模型
 
@@ -3010,7 +3014,7 @@ Sources: [admin-service/src/main/java/com/sky/service/ReportService.java:11-51](
 | `validOrderCount` | `Integer` | 有效订单数 |
 | `orderCompletionRate` | `Double` | 订单完成率 |
 
-Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:13-33]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:13-33`
 
 订单取消操作使用 `OrdersCancelDTO` 承载订单 ID 与取消原因。
 
@@ -3019,7 +3023,7 @@ Sources: [sky-pojo/src/main/java/com/sky/vo/OrderReportVO.java:13-33]()
 | `id` | `Long` | 订单 ID |
 | `cancelReason` | `String` | 订单取消原因 |
 
-Sources: [sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:7-14]()
+Sources: `sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:7-14`
 
 ## 异常运行约束
 
@@ -3030,7 +3034,7 @@ Sources: [sky-pojo/src/main/java/com/sky/dto/OrdersCancelDTO.java:7-14]()
 | `OrderBusinessException` | `BaseException` | 订单业务异常 |
 | `AccountNotFoundException` | `BaseException` | 账号不存在异常 |
 
-Sources: [sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-9](), [sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-15]()
+Sources: `sky-common/src/main/java/com/sky/exception/OrderBusinessException.java:3-9`, `sky-common/src/main/java/com/sky/exception/AccountNotFoundException.java:6-15`
 
 ## 运行环境总结
 
@@ -3051,29 +3055,29 @@ Related topics: [公共后端组件与异常体系](#page-common-backend-compone
 
 The following files were used as context for generating this wiki page:
 
-- [admin-service/src/main/java/com/sky/annotation/AutoFill.java](admin-service/src/main/java/com/sky/annotation/AutoFill.java)
-- [admin-service/src/main/java/com/sky/aspect/AutoFillAspect.java](admin-service/src/main/java/com/sky/aspect/AutoFillAspect.java)
-- [item-service/src/main/java/com/sky/annotation/AutoFill.java](item-service/src/main/java/com/sky/annotation/AutoFill.java)
-- [item-service/src/main/java/com/sky/aspect/AutoFillAspect.java](item-service/src/main/java/com/sky/aspect/AutoFillAspect.java)
-- [sky-api/src/main/java/com/sky/api/config/DefaultFeignConfig.java](sky-api/src/main/java/com/sky/api/config/DefaultFeignConfig.java)
-- [sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java](sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java)
-- [sky-api/src/main/java/com/sky/api/client/fallback/ShoppingCartClientFallBack.java](sky-api/src/main/java/com/sky/api/client/fallback/ShoppingCartClientFallBack.java)
-- [sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java](sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java)
-- [sky-common/src/main/java/com/sky/config/WebMvcConfiguration.java](sky-common/src/main/java/com/sky/config/WebMvcConfiguration.java)
+- `admin-service/src/main/java/com/sky/annotation/AutoFill.java`
+- `admin-service/src/main/java/com/sky/aspect/AutoFillAspect.java`
+- `item-service/src/main/java/com/sky/annotation/AutoFill.java`
+- `item-service/src/main/java/com/sky/aspect/AutoFillAspect.java`
+- `sky-api/src/main/java/com/sky/api/config/DefaultFeignConfig.java`
+- `sky-api/src/main/java/com/sky/api/client/ShoppingCartClient.java`
+- `sky-api/src/main/java/com/sky/api/client/fallback/ShoppingCartClientFallBack.java`
+- `sky-gateway/src/main/java/com/sky/gateway/route/DynamicRouteLoader.java`
+- `sky-common/src/main/java/com/sky/config/WebMvcConfiguration.java`
 </details>
 
 # 扩展性与定制能力
 
 本项目中的“扩展性与定制能力”主要体现在多模块 Controller/Service 分层、接口注解驱动、DTO/VO 数据契约、JWT 安全工具、网关跨域过滤、报表日期参数绑定以及本地开发权限配置等方面。购物车、用户、员工、地址簿、订单和报表等模块均通过 REST 接口对外提供能力，并由服务接口承载业务扩展点。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java](), [cart-service/src/main/java/com/sky/service/ShoppingCartService.java](), [admin-service/src/main/java/com/sky/controller/EmployeeController.java](), [admin-service/src/main/java/com/sky/service/EmployeeService.java](), [user-service/src/main/java/com/sky/controller/UserController.java](), [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java`, `cart-service/src/main/java/com/sky/service/ShoppingCartService.java`, `admin-service/src/main/java/com/sky/controller/EmployeeController.java`, `admin-service/src/main/java/com/sky/service/EmployeeService.java`, `user-service/src/main/java/com/sky/controller/UserController.java`, `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java`
 
 ## 分层架构中的扩展点
 
 系统通过 `@RestController` 定义 HTTP 入口，并将业务逻辑委托给 `Service` 接口。例如 `ShoppingCartController` 同时注入 `ShoppingCartService` 和 `ShoppingCartMapper`，既可通过服务接口完成添加、查看、清空、删除商品等常规操作，也可直接调用 Mapper 完成批量插入和按用户删除等数据操作。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [cart-service/src/main/java/com/sky/service/ShoppingCartService.java:1-34]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `cart-service/src/main/java/com/sky/service/ShoppingCartService.java:1-34`
 
 `EmployeeService` 和 `UserService` 以接口形式定义登录、新增、分页查询、启用/禁用、根据 ID 查询、更新等能力，具体实现由 `UserServiceImpl` 等服务实现类完成。这种接口与实现分离的方式为后续替换实现、增加业务方法或扩展新的管理端能力提供了基础。  
-Sources: [admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51](), [user-service/src/main/java/com/sky/service/UserService.java:1-18](), [user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:1-71]()
+Sources: `admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51`, `user-service/src/main/java/com/sky/service/UserService.java:1-18`, `user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:1-71`
 
 ```mermaid
 graph TD
@@ -3086,7 +3090,7 @@ B --> F[DTO与VO]
 ```
 
 上图展示了请求进入控制器后，可通过服务接口、业务实现、Mapper 以及 DTO/VO 数据对象完成处理。控制器既是 API 暴露层，也是扩展 HTTP 端点的主要入口。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51](), [user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:1-71]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `admin-service/src/main/java/com/sky/service/EmployeeService.java:1-51`, `user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:1-71`
 
 ```java
 @PostMapping("/add")
@@ -3099,12 +3103,12 @@ public Result add(@RequestBody ShoppingCartDTO shoppingCartDTO){
 ```
 
 该代码片段展示了通过新增 Controller 方法、绑定请求体并调用 Service 方法来扩展一个业务动作。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-38]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:32-38`
 
 ## API 端点与文档定制
 
 项目使用 Spring MVC 注解定制 HTTP 路径、请求方法和参数绑定，并使用 Swagger 的 `@Api`、`@ApiOperation` 描述接口用途。各模块通过不同路径前缀和方法注解暴露可定制的 REST API。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`
 
 | 模块 | 路径 | HTTP 方法 | 功能 | 主要参数 |
 |---|---|---|---|---|
@@ -3137,18 +3141,18 @@ Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartControl
 | 订单 | `/delivery/{id}` | PUT | 派送订单 | `Long id` 路径变量 |
 | 订单 | `/complete/{id}` | PUT | 完成订单 | `Long id` 路径变量 |
 
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98](), [admin-service/src/main/java/com/sky/controller/EmployeeController.java:60-144](), [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105](), [user-service/src/main/java/com/sky/controller/UserController.java:1-74](), [user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79](), [order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java:1-98`, `admin-service/src/main/java/com/sky/controller/EmployeeController.java:60-144`, `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`, `user-service/src/main/java/com/sky/controller/UserController.java:1-74`, `user-service/src/main/java/com/sky/controller/AddressBookController.java:1-79`, `order-service/src/main/java/com/sky/controller/admin/OrderController.java:69-128`
 
 报表接口中的日期参数通过 `@DateTimeFormat(pattern = "yyyy-MM-dd")` 绑定，使前端可以使用统一的日期字符串格式进行查询定制。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`
 
 ## 安全、令牌与用户上下文定制
 
 用户登录成功后，`UserController` 会读取 `JwtProperties` 中的用户密钥和过期时间，并将用户 ID 写入 JWT Claims，再通过 `JwtTool.createJWT` 生成令牌返回给前端。该流程表明令牌签发逻辑可以通过配置属性进行定制。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`
 
 `UserServiceImpl.login` 负责校验用户名和密码：先根据用户名查询用户，再对前端传入密码进行 MD5 加密后与数据库密码比对。若账号不存在或密码错误，则抛出对应异常。  
-Sources: [user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:32-57]()
+Sources: `user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:32-57`
 
 ```mermaid
 graph TD
@@ -3162,10 +3166,10 @@ F --> G[返回token]
 ```
 
 该图展示登录流程中用户服务、JWT 配置和 JWT 工具之间的关系。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:41-59](), [user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:32-57](), [sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:41-59`, `user-service/src/main/java/com/sky/service/impl/UserServiceImpl.java:32-57`, `sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59`
 
 `JwtTool.parseJWT` 提供了基于密钥解析 JWT 的能力。`sky-common` 与 `sky-gateway` 中均存在 `JwtTool` 工具类，说明网关侧也可以独立进行令牌解析。  
-Sources: [sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59](), [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57]()
+Sources: `sky-common/src/main/java/com/sky/utils/JwtTool.java:51-59`, `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`
 
 ```java
 public static Claims parseJWT(String secretKey, String token) {
@@ -3175,21 +3179,21 @@ public static Claims parseJWT(String secretKey, String token) {
 }
 ```
 
-Sources: [sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/utils/JwtTool.java:35-57`
 
 `UserController` 中还注入了 `CaffeineProperties`，并在登录方法中调用 `getMaximumSize()`，说明缓存相关配置也可以作为可注入的定制参数参与业务逻辑。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:44]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:44`
 
 地址簿接口通过 `BaseContext.getCurrentId()` 获取当前登录用户 ID，使地址查询能够按用户上下文进行隔离。  
-Sources: [user-service/src/main/java/com/sky/controller/AddressBookController.java:27-35]()
+Sources: `user-service/src/main/java/com/sky/controller/AddressBookController.java:27-35`
 
 ## 跨域与网关定制
 
 `GatewayApplication` 是网关模块的 Spring Boot 启动入口。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/GatewayApplication.java:1-12`
 
 `CorsConfig` 通过注册 `WebFilter` 处理跨域请求。它首先使用 `CorsUtils.isCorsRequest` 判断请求是否跨域；如果不是跨域请求，则直接继续过滤器链；如果是跨域请求，则根据请求头设置 `Access-Control-Allow-Origin` 和 `Access-Control-Allow-Headers` 等响应头。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:22-37]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:22-37`
 
 ```mermaid
 sequenceDiagram
@@ -3212,18 +3216,18 @@ end
 ```
 
 该时序图展示了网关过滤器根据请求是否跨域来决定是否补充 CORS 响应头。  
-Sources: [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:22-37]()
+Sources: `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java:22-37`
 
 除网关统一处理外，`UserController` 和 `AddressBookController` 也使用了 `@CrossOrigin` 注解，说明部分用户端接口还可以在控制器级别开启跨域支持。  
-Sources: [user-service/src/main/java/com/sky/controller/UserController.java:22](), [user-service/src/main/java/com/sky/controller/AddressBookController.java:14]()
+Sources: `user-service/src/main/java/com/sky/controller/UserController.java:22`, `user-service/src/main/java/com/sky/controller/AddressBookController.java:14`
 
 ## 报表统计与输出定制
 
 报表模块通过 `ReportController` 提供营业额、用户、订单、销量 Top10 和导出等接口。日期参数统一使用 `LocalDate`，并通过 `@DateTimeFormat` 完成格式化绑定。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`
 
 `ReportServiceImpl` 会根据起止日期生成日期列表：从 `begin` 开始，通过 `plusDays(1)` 逐日累加，直到等于 `end`。在用户统计中，它还会通过 Map 条件查询总用户数和新增用户数，并将日期、总用户、新增用户列表以逗号拼接成 `UserReportVO`。  
-Sources: [admin-service/src/main/java/com/sky/service/impl/ReportServiceImpl.java:114-156]()
+Sources: `admin-service/src/main/java/com/sky/service/impl/ReportServiceImpl.java:114-156`
 
 ```mermaid
 graph TD
@@ -3236,23 +3240,23 @@ B --> G[导出响应]
 ```
 
 该图展示报表接口从接收日期参数到生成统计 VO 或导出响应的处理路径。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:1-105](), [admin-service/src/main/java/com/sky/service/impl/ReportServiceImpl.java:114-156]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:1-105`, `admin-service/src/main/java/com/sky/service/impl/ReportServiceImpl.java:114-156`
 
 `UserReportVO` 使用字符串字段承载报表数据：`dateList`、`totalUserList`、`newUserList` 均以逗号分隔，便于前端按序列展示。  
-Sources: [sky-pojo/src/main/java/com/sky/vo/UserReportVO.java:1-26]()
+Sources: `sky-pojo/src/main/java/com/sky/vo/UserReportVO.java:1-26`
 
 导出接口直接接收 `HttpServletResponse`，并由 `ReportService.exportBusinessData` 写入响应，说明报表输出方式可以通过响应对象进行扩展。  
-Sources: [admin-service/src/main/java/com/sky/controller/ReportController.java:65-105]()
+Sources: `admin-service/src/main/java/com/sky/controller/ReportController.java:65-105`
 
 ## 本地开发与权限定制
 
 `.claude/settings.local.json` 中配置了本地允许执行的命令：`Bash(mvn -pl user-service spring-boot:run)`。该配置体现了本地开发环境中的权限或命令执行定制能力。  
-Sources: [.claude/settings.local.json:1-8]()
+Sources: `.claude/settings.local.json:1-8`
 
 ## 总结
 
 本项目的扩展性与定制能力主要通过分层 Controller/Service 结构、注解驱动的 REST API、DTO/VO 数据模型、JWT 配置与解析工具、网关 CORS 过滤器、报表日期绑定和本地权限配置实现。各业务模块可以在现有接口和服务契约基础上增加端点、扩展服务方法、调整安全与跨域策略，或定制报表统计与导出输出。  
-Sources: [cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java](), [cart-service/src/main/java/com/sky/service/ShoppingCartService.java](), [admin-service/src/main/java/com/sky/controller/EmployeeController.java](), [admin-service/src/main/java/com/sky/service/EmployeeService.java](), [admin-service/src/main/java/com/sky/controller/ReportController.java](), [user-service/src/main/java/com/sky/controller/UserController.java](), [sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java](), [.claude/settings.local.json]()
+Sources: `cart-service/src/main/java/com/sky/controller/user/ShoppingCartController.java`, `cart-service/src/main/java/com/sky/service/ShoppingCartService.java`, `admin-service/src/main/java/com/sky/controller/EmployeeController.java`, `admin-service/src/main/java/com/sky/service/EmployeeService.java`, `admin-service/src/main/java/com/sky/controller/ReportController.java`, `user-service/src/main/java/com/sky/controller/UserController.java`, `sky-gateway/src/main/java/com/sky/gateway/config/CorsConfig.java`, `.claude/settings.local.json`
 
 ---
 
