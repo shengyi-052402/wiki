@@ -1,0 +1,27 @@
+{
+  "id": "conv-1790418431791-60qd1ab5s",
+  "providerId": "codex",
+  "title": "Explain Obsidian Google Drive sync",
+  "titleGenerationStatus": "success",
+  "createdAt": 1790418431798,
+  "lastActivityAt": 1792510315504,
+  "sessionId": "01a0dd41-3f75-78d3-810e-ae1db392e134",
+  "selectedModel": "gpt-5.6-sol",
+  "providerState": {
+    "threadId": "01a0dd41-3f75-78d3-810e-ae1db392e134",
+    "nativeConversationContextEstablished": true,
+    "sessionFilePath": "C:\\Users\\李嘉浩\\.codex\\sessions\\2026\\09\\26\\rollout-2026-09-26T18-27-15-01a0dd41-3f75-78d3-810e-ae1db392e134.jsonl",
+    "transcriptRootPath": "C:\\Users\\李嘉浩\\.codex\\sessions",
+    "workspaceDependencyToolVersion": 1
+  },
+  "usage": {
+    "inputTokens": 35551,
+    "cacheCreationInputTokens": 0,
+    "cacheReadInputTokens": 27136,
+    "contextWindow": 258400,
+    "contextWindowIsAuthoritative": true,
+    "contextTokens": 35551,
+    "percentage": 14,
+    "model": "gpt-5.6-sol"
+  }
+}
