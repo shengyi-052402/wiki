@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "原始资料/面/QA-PLUS 锁与并发控制梳理.md",
-                "mode": "preview",
+                "file": "原始资料/学习/dubbo和openfeign.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "QA-PLUS 锁与并发控制梳理"
+              "title": "dubbo和openfeign"
             }
           }
         ]
@@ -194,9 +194,12 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "f551805a235943d1",
+  "active": "d139a5fff66f26ff",
   "lastOpenFiles": [
     "原始资料/面/QA-PLUS 锁与并发控制梳理.md",
+    "原始资料/学习/dubbo和openfeign.md",
+    "原始资料/学习/未命名",
+    "原始资料/学习",
     "原始资料/待办/2026_10_6.md",
     "管理流程.md",
     "知识/README.md",
@@ -212,8 +215,6 @@
     "admin-service/src/main/java/com",
     "admin-service/src/main/java",
     "admin-service/src/main",
-    "admin-service/src",
-    "admin-service",
     "原始资料/面/QA-PLUS 后台任务梳理.md",
     "Clippings/General · shengyi-052402ObNotion.md",
     "原始资料/面/模拟一.md",
